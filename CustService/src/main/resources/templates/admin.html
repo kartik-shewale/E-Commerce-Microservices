@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Manage Categories and Products</title>
+    <link rel="stylesheet" href="/css/admin.css" />
+</head>
+<body class="page-body">
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <a href="#" class="logo">
+                <img src="/images/Shop.jpg" alt="Shop Logo" class="logo-img" />
+                <span class="logo-text">Shop</span>
+            </a>
+
+            <nav class="nav-bar">
+                <div class="nav-padding">
+                    <a href="#" class="nav-link" id="orders" onclick="showOrders()">Orders</a>
+                    <a href="#" class="nav-link" id="stocks" onclick="showStocks()">Stock</a>
+                    <a href="#" class="nav-link" id="addCategory" onclick="showAddCategory()">Add Category</a>
+                    <a href="#" class="nav-link" id="addProduct" onclick="showAddProduct()">Add Product</a>
+                    
+                    <span class="logo-text" id="adminName">Admin</span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content Section -->
+    <section class="main-content">
+        <!-- Categories Section -->
+         <div id="categoriesSection" class="hidden" style="display:none">
+            <div class="categories-container">
+                <!-- Available Categories will appear here -->
+                <div class="categories-list" id="categoriesList leftAlign">
+                    <h2>Available Categories</h2>
+                    <!-- Dynamically added categories will be displayed here -->
+                </div>
+
+                <!-- Add Category Form on the right side -->
+                <div class="add-category-container" id="addCategoryContainer rightAlign">
+                    <h2>Add Category</h2>
+                    <form id="addCategoryForm">
+                        <input type="text" id="categoryName" name="category" placeholder="Category Name" required />
+                        <input type="text" id="categoryDescription" name="categoryDescription" placeholder="Category Description" required />
+                        <button type="submit" class="btn">Add Category</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stocks Section -->
+        <div id="stocksSection" class="hidden">
+            <h2>Manage Stocks</h2>
+            <div id="stocksList">
+                <!-- List of stocks will appear here -->
+            </div>
+        </div>
+
+        <!-- Orders Section -->
+        <div id="ordersSection" class="hidden">
+            <h2>Orders</h2>
+            <div id="ordersList">
+                <!-- List of orders will appear here -->
+            </div>
+        </div>
+
+        <!-- Add Product Form -->
+         <div id="addProductFormContainer" class="hidden" style="display:none">
+            <h2>Add Product</h2>
+            <form id="addProductForm">
+                <input type="text" id="productName" name="productName" placeholder="Product Name" required />
+                <input type="text" id="productDesc" name="productDesc" placeholder="product Description" required />
+                <input type="number" id="productPrice" name="productPrice" placeholder="Product Price" required />
+                <input type="number" id="productStock" name="productStock" placeholder="Stock Quantity" required />
+                <div class="dropdown">
+                  <button class="dropdown-btn">Product Catagory</button>
+                  <div class="dropdown-content">
+                  <a href="#">Profile</a>
+                  <a href="#">Settings</a>
+                  <a href="#">Logout</a>
+                  </div>
+              </div>
+                <button type="submit" class="btn">Add Product</button>
+            </form>
+         </div>
+    </section>
+
+    <script src="/JS/admin.js"></script>
+</body>
+</html>

@@ -1,4 +1,24 @@
 document.addEventListener("DOMContentLoaded", function() {
+	
+	const params = new URLSearchParams(window.location.search);
+	const id = params.get('data');
+	
+	fetch('/MyShop/customer/'+id)
+	    .then(response => response.json())
+	    .then(data => {
+			
+			const userImage = document.getElementById("userImage");
+			const username = document.getElementById("userName");
+
+			userImage.src = data.userImage;
+			username.textContent = data.userName;
+			document.getElementById('userId').value = data.iserId;
+	    })
+	    .catch(error => {
+	      console.error('Error fetching User Data:', error);
+	    });
+	
+	
   // Function to fetch products from the server (replace URL with actual endpoint)
   fetch('/MyShop/getProducts')
     .then(response => response.json())

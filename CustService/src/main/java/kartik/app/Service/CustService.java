@@ -2,12 +2,15 @@ package kartik.app.Service;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.client.RestTemplate;
 
+import jakarta.transaction.Transactional;
 import kartik.app.Entity.Customer;
 import kartik.app.Entity.Product;
 import kartik.app.Exception.DuplicateEntryException;
@@ -41,9 +44,38 @@ public class CustService implements CustServiceInterface{
             throw new DuplicateEntryException("Mobile number already exists.");
         }
         return custRepo.save(customer);
-
 	}
-
+	
+	
+	@Transactional
+	public boolean resetCustomerPass(@RequestBody Map<String, String> payload)
+	{
+		String username = payload.get("username");
+        String password = payload.get("password");
+        String mobileRegex = "^[7-9][0-9]{9}$";
+//        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@" +
+//                "(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+//        Pattern p = Pattern.compile(emailRegex);
+//        return email != null && p.matcher(email).matches();
+        if(username.matches(mobileRegex))
+        {
+        	if(!custRepo.existsByMobile(username)) {
+        		throw new ResourceNotFoundException("Account with given mobile number "+ username+" does not exist ");
+        	}else {
+				custRepo.changeUserPasswordByMobile(username, password);
+			}
+        	
+        }else {
+        	if(!custRepo.existsByEmail(username)) {
+        		throw new ResourceNotFoundException("Account with given email "+ username+" does not exist ");
+        	}else {
+				custRepo.changeUserPasswordByEmail(username, password);
+			}	
+        }	
+        return true;
+		
+	}
+	
 	@Override
 	public Customer getCustomerById(String id) {
 		return custRepo.findById(id).orElseThrow(()->new ResourceNotFoundException("Resource Not Found With Id : "+id));

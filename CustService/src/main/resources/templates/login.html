@@ -44,6 +44,8 @@
           </div>
           <button type="button" id="loginButton" class="btn">Login</button>
           <div id="loginErrorMessage" class="error-message"></div>
+          <label id="forgotPasswordLabel" class="forgot-password-label">Forgot Password?</label>
+          
         </form>
       </div>
       
@@ -59,11 +61,30 @@
             <label for="adminPassword">Password</label>
             <input type="password" id="adminPassword" name="adminPassword" required />
           </div>
-          <button type="button" id="adminLoginButton" class="btn">Login as Admin</button>
+          <button type="button" id="adminButton" class="btn">Login as Admin</button>
           <div id="adminErrorMessage" class="error-message"></div>
+          <label id="adminForgotPasswordLabel" class="forgot-password-label">Forgot Password?</label>
         </form>
       </div>
 
+      <!-- Forgot Pass -->
+      <div id="forgotPasswordContainer" class="form-container hidden">
+        <h2>Forgot Password</h2>
+        <form id="forgetPasswordForm">
+          <div class="input-group">
+            <label for="forgotMailOrMobile">Enter your Mobile No. or Email</label>
+            <input type="text" id="forgotMailOrMobile" name="forgotMailOrMobile" required />
+          </div>
+          <div class="input-group">
+            <label for="newPassword">Enter New Password</label>
+            <input type="password" id="newPassword" name="newPassword" required />
+          </div>
+          <div id="forgotPassowrdErrorMessage" class="error-message"></div>
+          <button type="button" id="forgot" class="btn">Forgot</button>
+          <!-- <div id="adminErrorMessage" class="error-message"></div> -->
+        </form>
+      </div>
+      
       <!-- Sign-Up Form -->
       <div id="signupFormContainer" class="form-container hidden">
         <h2>Sign-Up</h2>

@@ -9,16 +9,28 @@ document.addEventListener("DOMContentLoaded", () => {
     const loginErrorMessage = document.getElementById("loginErrorMessage");
     const signupErrorMessage = document.getElementById("signupErrorMessage");
 	
-	
 	const adminLoginButton = document.getElementById("adminLoginButton");
 	const adminLoginFormContainer = document.getElementById("adminLoginFormContainer");
 	const adminErrorMessage = document.getElementById("adminErrorMessage");
 	const adminButton = document.getElementById("adminButton");
+	
+	const forgotPasswordLabel = document.getElementById("forgotPasswordLabel");
+	const adminForgotPasswordLabel = document.getElementById("adminForgotPasswordLabel");
+	const forgotPasswordContainer = document.getElementById("forgotPasswordContainer");
+	const forgotPasswordButton = document.getElementById("forgot");
+	const forgotPassowrdErrorMessage = document.getElementById("forgotPassowrdErrorMessage");
+	
+	const email = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+	const mobile = /^[7-9][0-9]{9}$/;
+
+	
+	
     // Toggle Forms
     showLoginButton.addEventListener("click", () => {
       loginFormContainer.classList.remove("hidden");
       signupFormContainer.classList.add("hidden");
 	  adminLoginFormContainer.classList.add("hidden");
+	  forgotPasswordContainer.classList.add("hidden");
 	  document.getElementById("loginUsername").value = '';
 	  document.getElementById("loginPassword").value = '';
       showLoginButton.classList.add("active");
@@ -26,10 +38,10 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   
     showSignupButton.addEventListener("click", () => {
-		
       signupFormContainer.classList.remove("hidden");
       loginFormContainer.classList.add("hidden");
 	  adminLoginFormContainer.classList.add("hidden");
+	  forgotPasswordContainer.classList.add("hidden");
 	  document.getElementById("signupUsername").value = '';
 	  document.getElementById("signupPassword").value = '';
       showSignupButton.classList.add("active");
@@ -45,8 +57,84 @@ document.addEventListener("DOMContentLoaded", () => {
 	  loginFormContainer.classList.add("hidden");
 	  signupFormContainer.classList.add("hidden");
 	  showSignupButton.classList.remove("active");
-	  showSignupButton.classList.remove("active");
+	  forgotPasswordContainer.classList.add("hidden");
+	  showLoginButton.classList.remove("active");
   });
+  
+
+	  forgotPasswordLabel.addEventListener("click", function(e) {
+	    e.preventDefault();
+	    forgotPasswordButton.textContent = "Reset User Password";
+	    forgotPasswordContainer.classList.remove("hidden");
+	    signupFormContainer.classList.add("hidden");
+		document.getElementById("forgotMailOrMobile").value = "";
+		document.getElementById("newPassword").value ="";
+	    loginFormContainer.classList.add("hidden");
+	    adminLoginFormContainer.classList.add("hidden");
+	  });
+
+	  adminForgotPasswordLabel.addEventListener("click", function(e) {
+	    e.preventDefault();
+	    forgotPasswordButton.textContent = "Reset Admin Password";
+	    forgotPasswordContainer.classList.remove("hidden");
+		
+		document.getElementById("forgotMailOrMobile").value = "";
+		document.getElementById("newPassword").value ="";
+		forgotPassowrdErrorMessage.textContent = "";
+		loginErrorMessage.textContent = "";
+		signupErrorMessage.textContent = "";
+		
+	    signupFormContainer.classList.add("hidden");
+	    loginFormContainer.classList.add("hidden");
+	    adminLoginFormContainer.classList.add("hidden");
+	  });
+  
+  
+  	// Forgot Password Login
+      forgotPasswordButton.addEventListener("click", async () => {
+		const username = document.getElementById("forgotMailOrMobile").value.trim();
+		const password = document.getElementById("newPassword").value.trim();
+		forgotPassowrdErrorMessage.textContent = "";
+		
+        if (!username || !password) {
+          loginErrorMessage.textContent = "Username and password are required.";
+          return;
+        }
+		if (!email.test(username) && !mobile.test(username)) {
+          forgotPassowrdErrorMessage.textContent = "Enter Valid Mobile or Email.";
+          return;
+        }
+				
+		var url = "";
+		if(forgotPasswordButton.textContent == "Reset Admin Password")
+			{
+				url = 	"/admin/forgotAdmin";		
+			}else{
+				url = 	"/MyShop/forgotUser";	
+			}
+    
+        try {
+          const response = await fetch(url, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username, password }),
+          });
+    
+          if (response.ok) {
+            const data = await response.json();
+			alert(data.message);
+            window.location.href = data.redirect || "/dashboard";
+          } else {
+            const errorData = await response.json();
+			alert(errorData.message);
+            forgotPassowrdErrorMessage.textContent = errorData.message || "Login failed.";
+          }
+        } catch (error) {
+          console.error("Error during login:", error);
+          forgotPassowrdErrorMessage.textContent = "An unexpected error occurred.";
+        }
+      });
+
   
     // Handle Login
     loginButton.addEventListener("click", async () => {
@@ -68,7 +156,8 @@ document.addEventListener("DOMContentLoaded", () => {
   
         if (response.ok) {
           const data = await response.json();
-          window.location.href = data.redirect || "/dashboard";
+		  const queryString = encodeURIComponent(data.customers.custId);
+          window.location.href = `${data.redirect || "/dashboard"}?data=${queryString}`;
         } else {
           const errorData = await response.json();
           loginErrorMessage.textContent = errorData.message || "Login failed.";
@@ -80,35 +169,35 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 	
 		// Handle admin login Login
-	    adminButton.addEventListener("click", async () => {
-	      const username = document.getElementById("adminUsername").value.trim();
-	      const password = document.getElementById("adminPassword").value.trim();
-	      adminErrorMessage.textContent = "";
-	  
-	      if (!username || !password) {
-	        adminErrorMessage.textContent = "Username and password are required.";
-	        return;
-	      }
-	  
-	      try {
-	        const response = await fetch("/MyShop/admin", {
-	          method: "POST",
-	          headers: { "Content-Type": "application/json" },
-	          body: JSON.stringify({ username, password }),
-	        });
-	  
-	        if (response.ok) {
-	          const data = await response.json();
-	          window.location.href = data.redirect || "/dashboard";
-	        } else {
-	          const errorData = await response.json();
-	          adminErrorMessage.textContent = errorData.message || "Login failed.";
-	        }
-	      } catch (error) {
-	        console.error("Error during login:", error);
-	        adminErrorMessage.textContent = "An unexpected error occurred.";
-	      }
-	    });
+    adminButton.addEventListener("click", async () => {
+      const username = document.getElementById("adminUsername").value.trim();
+      const password = document.getElementById("adminPassword").value.trim();
+      adminErrorMessage.textContent = "";
+  
+      if (!username || !password) {
+        adminErrorMessage.textContent = "Username and password are required.";
+        return;
+      }
+  
+      try {
+        const response = await fetch("/MyShop/admin", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username, password }),
+        });
+  
+        if (response.ok) {
+          const data = await response.json();
+          window.location.href = data.redirect || "/dashboard";
+        } else {
+          const errorData = await response.json();
+          adminErrorMessage.textContent = errorData.message || "Login failed.";
+        }
+      } catch (error) {
+        console.error("Error during login:", error);
+        adminErrorMessage.textContent = "An unexpected error occurred.";
+      }
+    });
   
     // Handle Sign-Up
     signupButton.addEventListener("click", async () => {
@@ -149,9 +238,10 @@ document.addEventListener("DOMContentLoaded", () => {
   
             if (response.ok) {
 				const data = await response.json();
-				window.location.href = data.redirect || "/dashboard";
+				const queryString = encodeURIComponent(data.customers.custId);
+				window.location.href = `${data.redirect || "/dashboard"}?data=${queryString}`;
               alert("Sign-Up successful! Please log in.");
-              showLoginButton.click(); // Switch to login form
+             // showLoginButton.click(); // Switch to login form
             } else {
               const errorData = await response.json();
               signupErrorMessage.textContent = errorData.message || "Sign-Up failed.";
@@ -166,50 +256,3 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
   
-
-
-/*
-document.addEventListener("DOMContentLoaded", () => {
-  const loginForm = document.getElementById("loginForm");
-  const loginButton = document.getElementById("loginButton");
-  const errorMessage = document.getElementById("errorMessage");
-
-  // Handle form submission
-  loginButton.addEventListener("click", async (e) => {
-    e.preventDefault();
-
-    // Gather form data
-    const username = document.getElementById("username").value;
-    const password = document.getElementById("password").value;
-
-    if (!username || !password) {
-      errorMessage.textContent = "Username and password are required.";
-      return;
-    }
-
-    try {
-      // Make an HTTP POST request to the server
-      const response = await fetch("/MyShop/login", {
-        method: "POST", // Use POST for submitting login data
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ username, password }), // Send username and password as JSON
-      });
-
-      if (response.ok) {
-        // Handle successful login
-        const data = await response.json();
-        window.location.href = data.redirect || "/dashboard"; // Redirect to dashboard or provided URL
-      } else {
-        // Handle login failure
-        const errorData = await response.json();
-        errorMessage.textContent = errorData.message || "Login failed. Please try again.";
-      }
-    } catch (error) {
-      console.error("Error during login:", error);
-      errorMessage.textContent = "An unexpected error occurred.";
-    }
-  });
-});
-*/
