@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login & Sign-Up</title>
+    <link rel="stylesheet" href="/css/login.css" />
+  </head>
+  <body>
+  
+    <header>
+      <div class="container">
+        <div class="left-content">
+          <a href="#" class="logo">
+            <img src="/images/Shop.jpg" alt="Shop Logo" width="50" height="50" />
+            <span>Shop</span>
+          </a>
+        </div>
+        <div class="right-content">
+          <button id="adminLoginButton" class="btn admin-btn">Login as Admin</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="auth-container">
+      <!-- Toggle Buttons -->
+      <div class="toggle-buttons">
+        <button id="showLogin" class="btn active">Login</button>
+        <button id="showSignup" class="btn">Sign-Up</button>
+      </div>
+
+      <!-- Login Form -->
+      <div id="loginFormContainer" class="form-container">
+        <h2>Login</h2>
+        <form id="loginForm">
+          <div class="input-group">
+            <label for="loginUsername">Username</label>
+            <input type="text" id="loginUsername" name="username" required />
+          </div>
+          <div class="input-group">
+            <label for="loginPassword">Password</label>
+            <input type="password" id="loginPassword" name="password" required />
+          </div>
+          <button type="button" id="loginButton" class="btn">Login</button>
+          <div id="loginErrorMessage" class="error-message"></div>
+        </form>
+      </div>
+      
+      <!-- Admin Login Form (Initially hidden) -->
+      <div id="adminLoginFormContainer" class="form-container hidden">
+        <h2>Admin Login</h2>
+        <form id="adminLoginForm">
+          <div class="input-group">
+            <label for="adminUsername">Username</label>
+            <input type="text" id="adminUsername" name="adminUsername" required />
+          </div>
+          <div class="input-group">
+            <label for="adminPassword">Password</label>
+            <input type="password" id="adminPassword" name="adminPassword" required />
+          </div>
+          <button type="button" id="adminLoginButton" class="btn">Login as Admin</button>
+          <div id="adminErrorMessage" class="error-message"></div>
+        </form>
+      </div>
+
+      <!-- Sign-Up Form -->
+      <div id="signupFormContainer" class="form-container hidden">
+        <h2>Sign-Up</h2>
+        <form id="signupForm">
+          <div class="input-group">
+            <label for="signupFName">First Name</label>
+            <input type="text" id="signupFName" name="fName" required />
+          </div>
+          <div class="input-group">
+            <label for="signupLName">Last Name</label>
+            <input type="text" id="signupLName" name="lName" required />
+          </div>
+          <div class="input-group">
+            <label for="signupEmail">Email</label>
+            <input type="email" id="signupEmail" name="email" required />
+          </div>
+          <div class="input-group">
+            <label for="signupMobile">Mobile</label>
+            <input type="text" id="signupMobile" name="mobile" required />
+          </div>
+          <div class="input-group">
+            <label for="signupUsername">Username</label>
+            <input type="text" id="signupUsername" name="username" required />
+          </div>
+          <div class="input-group">
+            <label for="signupPassword">Password</label>
+            <input type="password" id="signupPassword" name="password" required />
+          </div>
+          <div class="input-group">
+            <label for="signupImage">Profile Picture</label>
+            <input type="file" id="signupImage" accept="image/*" />
+          </div>
+          <button type="button" id="signupButton" class="btn">Sign-Up</button>
+          <div id="signupErrorMessage" class="error-message"></div>
+        </form>
+      </div>
+    </div>
+
+    <script src="/JS/login.js"></script>
+  </body>
+</html>
