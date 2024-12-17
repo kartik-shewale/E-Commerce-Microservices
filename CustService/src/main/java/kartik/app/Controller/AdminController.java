@@ -76,8 +76,8 @@ public class AdminController {
 		 List<Catagory> list = catagoryService.getAllCatagories();
 		 	response.put("message", "Fetch Succesfully");
 	        response.put("statusText", "success");
-	        response.put("customers", list);
-	        response.put("redirect", "admin");
+	        response.put("catagory", list);
+	        response.put("redirect", "");
 	    return ResponseEntity.status(HttpStatus.OK).body(response);
 
 	 }
@@ -91,7 +91,7 @@ public class AdminController {
 		 	response.put("message", "Catagory Added");
 	        response.put("statusText", "success");
 	        response.put("customers", list);
-	        response.put("redirect", "admin");
+	        response.put("redirect", "adminpage");
 	    return ResponseEntity.status(HttpStatus.OK).body(response);
 	 }
 	 

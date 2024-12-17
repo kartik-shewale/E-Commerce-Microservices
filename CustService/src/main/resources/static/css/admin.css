@@ -1,15 +1,79 @@
-.rightAlign{
-  margin-right: 2rem;
+/* Reset margin and padding for body */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
+    box-sizing: border-box;
 }
 
+/* General Styling for Category Items */
+.category-card {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
 
-/* General Page Styles */
-.page-body {
-  font-family: Arial, sans-serif;
-  background-color: #f5f5f5;
-  color: #333;
-  margin: 0;
-  padding: 0;
+.category-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.category-title {
+  font-size: 1.5rem;
+  color: #4f46e5;
+  margin-bottom: 0.5rem;
+}
+
+.category-description {
+  font-size: 1rem;
+  color: #666;
+  line-height: 1.5;
+}
+
+/* Grid Layout for Stocks */
+#stocksList {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* 5 columns */
+    gap: 20px; /* Space between the cards */
+    padding: 20px;
+    box-sizing: border-box;
+    width: 100%;
+    overflow: hidden;
+    margin: 0 auto;
+}
+
+/* Product card styling */
+.product-card {
+    background-color: #f8f8f8;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Buttons */
+.btn {
+    padding: 8px 12px;
+    margin: 10px 5px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: #0056b3;
 }
 
 /* Header */
@@ -63,53 +127,75 @@
 
 /* Main Content Section */
 .main-content {
-  padding: 2rem;
+  padding: 1rem; /* You can reduce this if you want less padding */
   display: flex;
-  justify-content: center; /* Center horizontally only for categories and product sections */
-  align-items: flex-start; /* Align sections at the top */
   flex-direction: column;
   gap: 2rem;
+  justify-content: flex-start;
+  width: 100vw; /* Use viewport width to ensure it takes the full screen width */
+  box-sizing: border-box; /* Ensure padding doesn't cause overflow */
+  margin: 0; /* Remove default margins */
 }
 
-/* Categories Section */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%; /* Ensure full height for the page */
+  overflow: hidden; /* Prevent scrolling on the whole page */
+}
+
 #categoriesSection {
   display: flex;
-  justify-content: center; /* Centers the categories and add category form */
-  align-items: center;
+  justify-content: center; /* Center the content horizontally */
+  align-items: flex-start; /* Align the content to the top vertically */
   flex-direction: column;
-  gap: 2rem;
   width: 100%;
+  min-height: 100vh; /* Use 80% of the viewport height */
+  padding: 0;
+  overflow: hidden; /* Prevent the whole section from scrolling */
 }
 
-/* Categories Container */
 .categories-container {
   display: flex;
-  justify-content: space-between; /* Keeps the available categories and add category form on opposite sides */
+  justify-content: space-between;
+  align-items: flex-start;
   gap: 2rem;
-  width: 80%; /* Adjust width as needed */
-  max-width: 1200px; /* Maximum width for large screens */
-  padding: 2rem;
+  width: 100%;
+  padding: 0.5rem;
+  background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  background-color: #fff; /* White background */
+  box-sizing: border-box;
+  height: 100%; /* This makes it take up the full height of #categoriesSection */
+  overflow: hidden; /* Prevent scrolling within categories container */
 }
 
-/* Available Categories */
 .categories-list {
-  flex: 1;
-  background-color: #f9f9f9;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 columns for the categories */
+  gap: 1rem;
+  max-height: 84vh; /* Set maximum height to 70% of the viewport height */
+  overflow-y: auto; /* Allow vertical scrolling when content overflows */
   padding: 1rem;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
   border-radius: 5px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  width: 100%; /* Adjust width for available categories */
 }
 
-/* Add Category Form */
 .add-category-container {
   flex: 1;
-  background-color: #f9f9f9;
   padding: 1rem;
+  background-color: #f9f9f9;
   border-radius: 5px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  width: 30%; /* Keep the Add Category form the same size */
 }
 
 .add-category-container form {
@@ -122,6 +208,7 @@
   padding: 0.7rem;
   border-radius: 5px;
   border: 1px solid #ccc;
+  box-sizing: border-box;
 }
 
 .add-category-container input:focus {
@@ -137,6 +224,7 @@
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s;
+  box-sizing: border-box;
 }
 
 .add-category-container button:hover {
@@ -146,7 +234,7 @@
 /* Add Product Form */
 #addProductFormContainer {
   display: flex;
-  justify-content: center; /* Center Add Product Form */
+  justify-content: center;
   align-items: center;
   flex-direction: column;
   width: 100%;
@@ -178,7 +266,6 @@
 
 #addProductFormContainer button {
   padding: 0.7rem;
-  /* background-color: #4f46e5; */
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -189,148 +276,44 @@
   background-color: #3b36d1;
 }
 
-/* Hidden Sections */
 .hidden {
   display: none;
 }
 
-/* Product Card */
-.product-card {
-  background: white;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  padding: 1rem;
-  width: 100%;
-  max-width: 300px;
-  text-align: center;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.product-card:hover {
-  transform: scale(1.05);
-  transition: transform 0.3s ease;
-}
-
-.product-img {
-  width: 150px;
-  height: 150px;
-  margin-bottom: 1rem;
-}
-
-.product-title {
-  font-size: 1.2rem;
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-}
-
-.product-category {
-  color: #666;
-  margin-bottom: 0.5rem;
-}
-
-.product-price {
-  color: #4f46e5;
-  font-size: 1.2rem;
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-}
-
-.product-description {
-  color: #666;
-  margin-bottom: 1rem;
-}
-
-.quantity-controls {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 2.5rem;
-}
-
-.quantity-btn {
-  background-color: #4f46e5;
-  color: white;
-  border: none;
-  padding: 0.5rem;
-  border-radius: 3px;
-  cursor: pointer;
-  width: auto; /* Allow the width to expand based on content */
-  min-width: 30px; /* Minimum width to keep button from being too small */
-  height: auto; /* Let the height adjust based on content */
-  text-align: center;
-  white-space: normal; /* Allow content to wrap if it's too wide */
-}
-
-.quantity-btn:hover {
-  background-color: #3b36d1;
-}
-
-.quantity-label {
-  padding: 0.1rem 0rem;
-  background-color: #f9f9f9;
-  font-size: 16px;
-  font-weight: bold;
-  color: #333;
-  text-align: center;
-  display: inline-block; /* Allows the label to wrap its content naturally */
-}
-
-.btn {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 7px 15px;
-  font-size: 14px;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-top: 0px;
-}
-
-.btn:hover {
-  background-color: #0056b3;
-}
-
-.dropdown {
-  position: relative;
-  display: inline-block;
-  width: 100%;
-}
-
-
+/* Dropdown Menu */
 .dropdown-btn {
   width: 100%;
   padding: 0.7rem;
   border: 1px solid #ccc !important;
   border-radius: 5px;
-  background-color: #ccc; /* Neutral background color */
+  background-color: #ccc;
   font-size: 16px;
   cursor: pointer;
   text-align: left;
-  color: #333; /* Text color */
-  transition: background-color 0.3s; /* Smooth color transition */
+  color: #333;
 }
 
 .dropdown-btn:hover {
-  background-color: #e5e5e5; /* Light hover color */
-  color: #333; /* Keep text color consistent */
+  background-color: #e5e5e5;
 }
 
 .dropdown-btn:focus {
-  border-color: #4f46e5; /* Highlight border on focus */
-  outline: none; /* Remove default focus outline */
-  background-color: #fff; /* Ensure focus color is distinct */
+  border-color: #4f46e5;
+  outline: none;
 }
-
 
 .dropdown-content {
   display: none;
   position: absolute;
-  background-color: #fff !important;
+  background-color: #fff;
   width: 100%;
   border: 1px solid #ccc;
   border-radius: 5px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  z-index: 1;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
 }
 
 .dropdown-content a {
@@ -340,8 +323,3 @@
   display: block;
   font-size: 16px;
 }
-
-.dropdown:hover .dropdown-content {
-  display: block;
-}
-

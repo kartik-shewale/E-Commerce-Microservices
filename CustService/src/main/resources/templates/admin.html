@@ -34,9 +34,9 @@
          <div id="categoriesSection" class="hidden" style="display:none">
             <div class="categories-container">
                 <!-- Available Categories will appear here -->
-                <div class="categories-list" id="categoriesList leftAlign">
+                <div class="categories-list" id="categoriesList">
                     <h2>Available Categories</h2>
-                    <!-- Dynamically added categories will be displayed here -->
+                    
                 </div>
 
                 <!-- Add Category Form on the right side -->
@@ -55,11 +55,31 @@
 
         <!-- Stocks Section -->
         <div id="stocksSection" class="hidden">
-            <h2>Manage Stocks</h2>
-            <div id="stocksList">
-                <!-- List of stocks will appear here -->
-            </div>
-        </div>
+		    <h2>Manage Stocks</h2>
+		
+		    <!-- List of products will appear here -->
+		    <div id="stocksList">
+		        <!-- Product cards will be dynamically added here -->
+		    </div>
+		
+		    <!-- Button to add product (separate from stocks list) -->
+		    <button id="addProductBtn" class="btn" onclick="showAddProductForm()">Add Product</button>
+		</div>
+		
+		<!-- Add Product Form (hidden initially)
+		<div id="addProductFormContainer" class="hidden">
+		    <h2>Add Product</h2>
+		    <form id="addProductForm" onsubmit="addProduct(event)">
+		        <input type="text" id="productName" name="name" placeholder="Product Name" required />
+		        <input type="text" id="productDescription" name="description" placeholder="Product Description" required />
+		        <input type="number" id="productPrice" name="price" placeholder="Product Price" required />
+		        <input type="number" id="productQuantity" name="quantity" placeholder="Product Quantity" required />
+		        <input type="text" id="productCategory" name="catagory" placeholder="Product Category" required />
+		        <button type="submit" class="btn">Add Product</button>
+		        <button type="button" onclick="cancelAddProductForm()" class="btn">Cancel</button>
+		    </form>
+		</div>
+ -->
 
         <!-- Orders Section -->
         <div id="ordersSection" class="hidden">
