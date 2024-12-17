@@ -22,7 +22,7 @@ public class Admin {
     private String password;
 
     @Column(name = "userName", unique = true)
-    private String AdminName;
+    private String adminName;
 
 	public Admin(String adminId, String fName, String lName, String email, String mobile, String password,
 			String adminName) {
@@ -33,7 +33,7 @@ public class Admin {
 		this.email = email;
 		this.mobile = mobile;
 		this.password = password;
-		AdminName = adminName;
+		this.adminName = adminName;
 	}
 
 	public Admin() {
@@ -89,11 +89,11 @@ public class Admin {
 	}
 
 	public String getAdminName() {
-		return AdminName;
+		return adminName;
 	}
 
 	public void setAdminName(String adminName) {
-		AdminName = adminName;
+		this.adminName = adminName;
 	}
     
 

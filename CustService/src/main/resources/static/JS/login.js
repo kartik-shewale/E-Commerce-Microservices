@@ -97,7 +97,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		forgotPassowrdErrorMessage.textContent = "";
 		
         if (!username || !password) {
-          loginErrorMessage.textContent = "Username and password are required.";
+          forgotPassowrdErrorMessage.textContent = "Username and password are required.";
           return;
         }
 		if (!email.test(username) && !mobile.test(username)) {
@@ -126,7 +126,7 @@ document.addEventListener("DOMContentLoaded", () => {
             window.location.href = data.redirect || "/dashboard";
           } else {
             const errorData = await response.json();
-			alert(errorData.message);
+			//alert(errorData.message);
             forgotPassowrdErrorMessage.textContent = errorData.message || "Login failed.";
           }
         } catch (error) {
@@ -180,7 +180,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
   
       try {
-        const response = await fetch("/MyShop/admin", {
+        const response = await fetch("/admin/login", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ username, password }),

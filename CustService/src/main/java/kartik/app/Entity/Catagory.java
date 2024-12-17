@@ -11,14 +11,14 @@ public class Catagory {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	private String catagoryId;
+	private int catagoryId;
 	
 	@Column(unique = true)
 	private String catagory;
 	
 	private String catagaoryDesc;
 
-	public Catagory(String catagoryId, String catagory, String catagaoryDesc) {
+	public Catagory(int catagoryId, String catagory, String catagaoryDesc) {
 		super();
 		this.catagoryId = catagoryId;
 		this.catagory = catagory;
@@ -29,11 +29,11 @@ public class Catagory {
 		super();
 	}
 
-	public String getCatagoryId() {
+	public int getCatagoryId() {
 		return catagoryId;
 	}
 
-	public void setCatagoryId(String catagoryId) {
+	public void setCatagoryId(int catagoryId) {
 		this.catagoryId = catagoryId;
 	}
 

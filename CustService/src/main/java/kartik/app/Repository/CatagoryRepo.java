@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import kartik.app.Entity.Catagory;
 
 @Repository
-public interface CatagoryRepo extends JpaRepository<Catagory, String>{
+public interface CatagoryRepo extends JpaRepository<Catagory, Integer>{
 
 }

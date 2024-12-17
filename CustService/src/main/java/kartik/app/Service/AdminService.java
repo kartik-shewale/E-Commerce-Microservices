@@ -1,5 +1,5 @@
 package kartik.app.Service;
-
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import jakarta.transaction.Transactional;
+import kartik.app.Entity.Admin;
 import kartik.app.Exception.ResourceNotFoundException;
 import kartik.app.Repository.AdminRepo;
 
@@ -44,5 +45,10 @@ public class AdminService {
         return true;
 		
 	}
+
+	public Admin findByUserName(String username) {
+		return adminRepo.findByAdminName(username);
+	}
+
 
 }
