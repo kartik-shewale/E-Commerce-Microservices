@@ -112,6 +112,11 @@ public class CustService implements CustServiceInterface{
 		Product list = restTemplate.getForObject("http://localhost:1003/product/"+id, Product.class);
 		return list;
 	}
+	
+	public Product addProduct(Product product)
+	{
+		return	restTemplate.postForObject("http://localhost:1003/product", product, Product.class);
+	}
 
 	
 	

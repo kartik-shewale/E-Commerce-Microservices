@@ -103,9 +103,12 @@
 					    <input type="hidden" id="selectedCategoryId" name="categoryId">
 					</div>
 		            </div>
-
-		            <button type="submit" class="btn">Save Changes</button>
-		            <button type="button" class="btn" onclick="closeModal()">Cancel</button>
+					<div class="form-actions">
+				        <button type="button" class="btn" id="updateProductbtn">Save Changes</button>
+				        <button type="button" class="btn" onclick="closeModal()">Cancel</button>
+				    </div>
+		            <!--  <button type="button" class="btn" id="updateProductbtn">Save Changes</button>
+		            <button type="button" class="btn" onclick="closeModal()">Cancel</button>-->
 		        </form>
 		    </div>
 		</div>
@@ -120,20 +123,20 @@
 
         <!-- Add Product Form -->
          <div id="addProductFormContainer" class="hidden" style="display:none">
-            <h2>Add Product</h2>
+            
             <form id="addProductForm">
+            	<h2>Add Product</h2>
                 <input type="text" id="productName" name="productName" placeholder="Product Name" required />
                 <input type="text" id="productDesc" name="productDesc" placeholder="product Description" required />
                 <input type="number" id="productPrice" name="productPrice" placeholder="Product Price" required />
                 <input type="number" id="productStock" name="productStock" placeholder="Stock Quantity" required />
                 <div class="dropdown">
-                  <button class="dropdown-btn">Product Catagory</button>
-                  <div class="dropdown-content">
-                  <a href="#">Profile</a>
-                  <a href="#">Settings</a>
-                  <a href="#">Logout</a>
-                  </div>
-              </div>
+				    <button class="dropdown-btn" id="selectedValueAddproduct">Product Category</button>
+				    <div class="dropdown-content" id="dropdownContentAddproduct">
+				        <!-- Items will be dynamically populated -->
+				    </div>
+				    <input type="hidden" id="selectedCategoryIdAddproduct" name="categoryId">
+				</div>
                 <button type="submit" class="btn">Add Product</button>
             </form>
          </div>

@@ -1,3 +1,22 @@
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end; /* Align buttons to the right */
+    gap: 0.5rem; /* Add some spacing between the buttons */
+}
+
+.form-actions .btn {
+    padding: 0.5rem 1rem;
+    border: none;
+    background-color: #007bff; /* Example: Primary blue */
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.form-actions .btn:hover {
+    background-color: #0056b3; /* Example: Darker blue on hover */
+}
 /* Modal Styles */
 .modal {
     display: none;
@@ -333,8 +352,15 @@ html, body {
   max-width: 500px;
   background-color: #f9f9f9;
   padding: 1rem;
+      margin-left: auto;
+    margin-right: auto;
   border-radius: 5px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#addProductFormContainer h2{
+	text-align: center;
+	
 }
 
 #addProductFormContainer input {
@@ -370,11 +396,11 @@ html, body {
   padding: 0.7rem;
   border: 1px solid #ccc !important;
   border-radius: 5px;
-  background-color: #ccc;
+  background-color: white;
   font-size: 16px;
   cursor: pointer;
   text-align: left;
-  color: #333;
+  color: black;
 }
 
 .dropdown-btn:hover {

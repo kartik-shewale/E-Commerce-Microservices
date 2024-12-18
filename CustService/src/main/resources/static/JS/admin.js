@@ -29,6 +29,10 @@ document.addEventListener("DOMContentLoaded", function () {
 					//alert(data.message);
 			          // window.location.href = data.redirect || "/dashboard";
 					  addingErrorMessage.textContent = data.message;
+					  
+					  document.getElementById("categoryName").value = "";
+					  document.getElementById("categoryDescription").value ="";
+					  addAllCatagory();
 		         } else {
 		           const errorData = await response.json();
 				alert(errorData.message);
@@ -81,6 +85,7 @@ function showOrders() {
 }
 
 function showAddProduct() {
+	fetchCatagoryForAddproduct()
     document.getElementById("categoriesSection").style.display = "none";
     document.getElementById("stocksSection").style.display = "none";
     document.getElementById("ordersSection").style.display = "none";
@@ -89,28 +94,25 @@ function showAddProduct() {
 
 function addAllCatagory(){
 	
-	
 	fetch('/admin/catagory')
     .then(response => response.json())
     .then(data => {
 		const categories = data.catagory;
 		console.log(data.catagory)
 
-	  const categoryItems = document.getElementById('categoriesList');
-	  categoryItems.innerHTML = `<h2>Available Categories</h2>`;
-      categories.forEach(catagory => {
+	  	const categoryItems = document.getElementById('categoriesList');
+	  	categoryItems.innerHTML = `<h2>Available Categories</h2>`;
+     	categories.forEach(catagory => {
 		const listItem  = document.createElement('div');
 		
 		listItem.className = 'category-item';
-
+	
 		listItem.innerHTML = `
 		  <div class="category-card">
-		    <h3 class="category-title">${catagory.catagory}</h3>
+		    <h3 class="category-title">${catagory.category}</h3>
 		    <p class="category-description">${catagory.catagaoryDesc}</p>
-		  </div>
-		`;
-
-        categoryItems.appendChild(listItem);
+		  </div>`;
+	    categoryItems.appendChild(listItem);
       });
     })
     .catch(error => {
@@ -119,17 +121,15 @@ function addAllCatagory(){
 }
 
 function deleteProduct(id){
-	const url = `/MyShop/product/${id}`; // Replace with the correct URL for your server
-
+	const url = `/MyShop/product/${id}`; 
 	fetch(url, {
 	    method: 'DELETE',
 	    headers: { 'Content-Type': 'application/json' }
 	})
 	.then(response => response.json())
 	.then(data => {
-	    console.log(data.message);  // Log the response text
-	        console.log('Product deleted successfully!');
-
+    	console.log(data.message);  
+		console.log('Product deleted successfully!');
 	})
 	.catch(() => {
 	    console.error('Error:', data.message);
@@ -142,31 +142,29 @@ function showStockDetails(){
 	fetch('/MyShop/getProducts')
 	    .then(response => response.json())
 	    .then(data => {
-			const stocksList = document.getElementById('stocksList');
-			stocksList.innerHTML = ''; 
+		const stocksList = document.getElementById('stocksList');
+		stocksList.innerHTML = ''; 
 			
-			data.forEach(product => {
-			    const productCard = document.createElement('div');
-			    productCard.classList.add('product-card');
-			    
-			    productCard.innerHTML = `
-			        <h3 class="product-title">${product.name}</h3>
-			        <p class="product-description">${product.description}</p>
-			        <p><strong>Price:</strong> $${product.price}</p>
-			        <p><strong>Quantity:</strong> ${product.quantity}</p>
-			        <p><strong>Category:</strong> ${product.category}</p>
-					
-					<div class="button-row"> <button class="btn" onclick="editProduct('${product.id}')">Edit</button>
-			            <button class="btn" onclick="deleteProduct('${product.id}')">Delete</button>
-			        </div>
-			    `;
-			    
-			    stocksList.appendChild(productCard);
-	      });
-	    })
-	    .catch(error => {
-	      console.error('Error fetching products:', error);
-	    });
+		data.forEach(product => {
+	    const productCard = document.createElement('div');
+	    productCard.classList.add('product-card');
+	    
+	    productCard.innerHTML = `
+	        <h3 class="product-title">${product.name}</h3>
+	        <p class="product-description">${product.description}</p>
+	        <p><strong>Price:</strong> $${product.price}</p>
+	        <p><strong>Quantity:</strong> ${product.quantity}</p>
+	        <p><strong>Category:</strong> ${product.category}</p>
+			
+			<div class="button-row"> <button class="btn" onclick="editProduct('${product.id}')">Edit</button>
+	            <button class="btn" onclick="deleteProduct('${product.id}')">Delete</button>
+	        </div>`;
+	    stocksList.appendChild(productCard);
+	  });
+	})
+	.catch(error => {
+	  console.error('Error fetching products:', error);
+	});
 }
 
 
@@ -179,37 +177,29 @@ function fetchCategory(){
 	fetch('/admin/catagory')
 	    .then(response => response.json()) // Parse the JSON from the response
 	    .then(data => {
-	        // Debugging: Check the response structure
-	        console.log("API Response:", data);
+	       
+        console.log("API Response:", data);
 
-	        const categories = data.catagory; // Extract the `catagory` array
-	        if (Array.isArray(categories)) { // Ensure it's an array
-	            dropdownContent.innerHTML = categories
-	                .map(category => 
-	                    `<a href="#" data-id="${category.catagoryId}">${category.catagory}</a>`
-	                )
-	                .join("");
-	        } else {
-	            console.error("Catagory is not an array or is undefined");
-	        }
+        const categories = data.catagory;
+        if (Array.isArray(categories)) { 
+        dropdownContent.innerHTML = categories
+            .map(category =>`<a href="#" data-id="${category.catagoryId}">${category.category}</a>`)
+            .join("");
+        } else {
+            console.error("Catagory is not an array or is undefined");
+        }
 	    })
 	    .catch(error => {
 	        console.error("Error fetching categories:", error);
 	    });
 
-	
-		
-	
-
-	dropdownContent.addEventListener("click", (event) => {
+		dropdownContent.addEventListener("click", (event) => {
 	    event.preventDefault(); // Prevent default anchor behavior
 	    const clickedItem = event.target; // Get the clicked item
 	    if (clickedItem.tagName === "A") {
 	        const categoryId = clickedItem.getAttribute("data-id");
 	        const categoryName = clickedItem.textContent;
-
 	        selectedValueButton.textContent = categoryName;
-
 	        selectedCategoryId.value = categoryId;
 	    }
 	});
@@ -230,6 +220,7 @@ function editProduct(id) {
 		       document.getElementById('editProductDescription').value = product.description;
 		       document.getElementById('editProductPrice').value = product.price;
 		       document.getElementById('editProductQuantity').value = product.quantity;
+			   document.getElementById("selectedValue").textContent = product.category;
 		      // document.getElementById('editProductCategory').value = product.category;
 			   
 		       document.getElementById('editModal').style.display = 'block';
@@ -244,23 +235,82 @@ function closeModal() {
     document.getElementById('editModal').style.display = 'none';
 }
 
-document.getElementById('editProductForm').addEventListener('submit', function(event) {
-    event.preventDefault();
 
-    const editedProduct = {
+const updateProductBtn = document.getElementById("updateProductbtn");
+const addingErrorMessage = document.getElementById("addingErrorMessage");
+updateProductBtn.addEventListener("click", async () => {
+	
+    	const editedProduct = {
         id: document.getElementById('editProductId').value,
         name: document.getElementById('editProductName').value,
         description: document.getElementById('editProductDescription').value,
         price: document.getElementById('editProductPrice').value,
         quantity: document.getElementById('editProductQuantity').value,
-        category: document.getElementById('editProductCategory').value
+        category: document.getElementById('selectedValue').textContent
     };
+	
+	try {
+         const response = await fetch('/MyShop/addUpdateProduct', {
+           method: "POST",
+           headers: { "Content-Type": "application/json" },
+           body: JSON.stringify(editedProduct),
+         });
+   
+         if (response.ok) {
+           const data = await response.json();
+		   console.log(data);
+			
+         } else {
+           const errorData = await response.json();
+		
+         }
+       } catch (error) {
+         console.error("Error during adding:", error);
+         addingErrorMessage.textContent = "An unexpected error occurred.";
+       }
+	
     updateProduct(editedProduct);
 });
 
 function updateProduct(product) {
+	showStockDetails();
     console.log("Product updated:", product);
     closeModal();
+}
+
+function fetchCatagoryForAddproduct(){
+	const dropdownContentAddproduct = document.getElementById("dropdownContentAddproduct");
+	const selectedValueAddproduct = document.getElementById("selectedValueAddproduct");
+	const selectedCategoryIdAddproduct = document.getElementById("selectedCategoryIdAddproduct");
+
+	fetch('/admin/catagory')
+	    .then(response => response.json())
+	    .then(data => {
+	        console.log("API Response:", data);
+	        const categories = data.catagory;
+	        if (Array.isArray(categories)) {
+	            dropdownContentAddproduct.innerHTML = categories
+	                .map(category =>`<a href="#" data-id="${category.catagoryId}">${category.category}</a>`)
+	                .join("");
+	        } else {
+	            console.error("Catagory is not an array or is undefined");
+	        }
+	    })
+	    .catch(error => {
+	        console.error("Error fetching categories:", error);
+	    });
+
+		dropdownContentAddproduct.addEventListener("click", (event) => {
+	    event.preventDefault(); // Prevent default anchor behavior
+	    const clickedItem = event.target; // Get the clicked item
+	    if (clickedItem.tagName === "A") {
+	        const categoryId = clickedItem.getAttribute("data-id");
+	        const categoryName = clickedItem.textContent;
+	        selectedValueAddproduct.textContent = categoryName;
+	        selectedCategoryIdAddproduct.value = categoryId;
+	    }
+	});
+	
 }
 
 

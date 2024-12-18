@@ -37,18 +37,18 @@ public class AdminController {
 		Map<String, Object> response = new HashMap<>();
 		Admin adminList = adminService.findByUserName(username);
 		
-			if(adminList.getAdminName().equals(username) && adminList.getPassword().equals(password)) {
-				response.put("message", "Login successful");
-		        response.put("statusText", "Admin authenticated");
-		        response.put("customers", adminList);
-		        response.put("redirect", "admin/adminpage");
-		    return ResponseEntity.status(HttpStatus.OK).body(response);
-		
-			}
+		if(adminList.getAdminName().equals(username) && adminList.getPassword().equals(password)) {
+			response.put("message", "Login successful");
+	        response.put("statusText", "Admin authenticated");
+	        response.put("customers", adminList);
+	        response.put("redirect", "admin/adminpage");
+	    return ResponseEntity.status(HttpStatus.OK).body(response);
+	    
+		}
 			
-		response.put("message", "Invalid credentials");
-        response.put("statusText", "Authentication failed");
-        response.put("redirect", "MyShop");
+			response.put("message", "Invalid credentials");
+	        response.put("statusText", "Authentication failed");
+	        response.put("redirect", "MyShop");
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
 	}
 	

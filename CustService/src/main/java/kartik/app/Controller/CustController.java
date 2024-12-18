@@ -111,6 +111,9 @@ public class CustController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(customer2);
 	}
 	
+	
+	// All Releted to Product ================================================================================================
+	
 	@GetMapping("/products")
 	public String getProductPage(){
 		System.out.print("Getting products");
@@ -144,4 +147,28 @@ public class CustController {
         response.put("statusText", "Deleted");
         return ResponseEntity.status(HttpStatus.OK).body(response);
 	}
+	
+	@PostMapping("/addUpdateProduct")
+	public ResponseEntity<Map<String, Object>> addUpdateProduct(@RequestBody Product product)
+	{
+		Map<String, Object> response = new HashMap<>();	
+		Product p = service.addProduct(product);
+		
+		if(p.getId().equals("success"))
+		{
+			response.put("message", "Updated Succesfully");
+	        response.put("statusText", "Updated");
+		}else if(p.getId().equals("Failed"))
+		{
+			response.put("message", "Update Failure");
+	        response.put("statusText", "Failure");
+		}else {
+			response.put("product", p);
+			response.put("message", "Added Succesfully");
+	        response.put("statusText", "Added");
+		}
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+	}
+	
+	// All Releted to Product ================================================================================================
 }

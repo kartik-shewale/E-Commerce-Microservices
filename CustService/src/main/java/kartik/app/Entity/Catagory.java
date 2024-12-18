@@ -8,20 +8,20 @@ import jakarta.persistence.Id;
 
 @Entity
 public class Catagory {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private int catagoryId;
-	
+
 	@Column(unique = true)
-	private String catagory;
-	
+	private String category;
+
 	private String catagaoryDesc;
 
-	public Catagory(int catagoryId, String catagory, String catagaoryDesc) {
+	public Catagory(int catagoryId, String category, String catagaoryDesc) {
 		super();
 		this.catagoryId = catagoryId;
-		this.catagory = catagory;
+		this.category = category;
 		this.catagaoryDesc = catagaoryDesc;
 	}
 
@@ -37,12 +37,12 @@ public class Catagory {
 		this.catagoryId = catagoryId;
 	}
 
-	public String getCatagory() {
-		return catagory;
+	public String getCategory() {
+		return category;
 	}
 
-	public void setCatagory(String catagory) {
-		this.catagory = catagory;
+	public void setCategory(String category) {
+		this.category = category;
 	}
 
 	public String getCatagaoryDesc() {
@@ -52,9 +52,5 @@ public class Catagory {
 	public void setCatagaoryDesc(String catagaoryDesc) {
 		this.catagaoryDesc = catagaoryDesc;
 	}
-	
-	
-	
-	
 
 }
