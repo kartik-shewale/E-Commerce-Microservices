@@ -98,6 +98,22 @@ public class CustService implements CustServiceInterface{
 			return products;
 	}
 	
+	public void deleteProductById(String id) {
+	    try {
+	        // Assuming you're making a REST call to delete the product
+	        restTemplate.delete("http://localhost:1003/product/" + id);
+	        System.out.println("Product deleted successfully with id: " + id);
+	    } catch (Exception e) {
+	        System.err.println("Error during delete: " + e.getMessage());
+	    }
+	}
+	
+	public Product getProductById(String id){
+		Product list = restTemplate.getForObject("http://localhost:1003/product/"+id, Product.class);
+		return list;
+	}
+
+	
 	
 
 }

@@ -3,15 +3,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	//fetchOrders();
 	
+	
+	
     const addCategoryLink = document.getElementById("addCatagoryBtn");
 	const addingErrorMessage = document.getElementById("addingErrorMessage");
 	
 	addCategoryLink.addEventListener("click", async () => {
-			const catagory = document.getElementById("categoryName").value.trim();
+			const category = document.getElementById("categoryName").value.trim();
 			const catagaoryDesc = document.getElementById("categoryDescription").value.trim();
 			addingErrorMessage.textContent = "";
 			
-		       if (!catagory || !catagaoryDesc) {
+		       if (!category || !catagaoryDesc) {
 		         addingErrorMessage.textContent = "catagory and catagory description are required.";
 		         return;
 		       }
@@ -19,7 +21,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		         const response = await fetch('catagory', {
 		           method: "POST",
 		           headers: { "Content-Type": "application/json" },
-		           body: JSON.stringify({ catagory, catagaoryDesc }),
+		           body: JSON.stringify({ category, catagaoryDesc }),
 		         });
 		   
 		         if (response.ok) {
@@ -36,7 +38,9 @@ document.addEventListener("DOMContentLoaded", function () {
 		         console.error("Error during adding:", error);
 		         addingErrorMessage.textContent = "An unexpected error occurred.";
 		       }
-		     });
+		   });
+		   
+
 
 });
 
@@ -87,31 +91,50 @@ function addAllCatagory(){
 	
 	
 	fetch('/admin/catagory')
-	    .then(response => response.json())
-	    .then(data => {
-			const categories = data.catagory;
-			console.log(data.catagory)
+    .then(response => response.json())
+    .then(data => {
+		const categories = data.catagory;
+		console.log(data.catagory)
 
-		  const categoryItems = document.getElementById('categoriesList');
-		  categoryItems.innerHTML = `<h2>Available Categories</h2>`;
-	      categories.forEach(catagory => {
-			const listItem  = document.createElement('div');
-			
-			listItem.className = 'category-item';
+	  const categoryItems = document.getElementById('categoriesList');
+	  categoryItems.innerHTML = `<h2>Available Categories</h2>`;
+      categories.forEach(catagory => {
+		const listItem  = document.createElement('div');
+		
+		listItem.className = 'category-item';
 
-			listItem.innerHTML = `
-			  <div class="category-card">
-			    <h3 class="category-title">${catagory.catagory}</h3>
-			    <p class="category-description">${catagory.catagaoryDesc}</p>
-			  </div>
-			`;
+		listItem.innerHTML = `
+		  <div class="category-card">
+		    <h3 class="category-title">${catagory.catagory}</h3>
+		    <p class="category-description">${catagory.catagaoryDesc}</p>
+		  </div>
+		`;
 
-	        categoryItems.appendChild(listItem);
-	      });
-	    })
-	    .catch(error => {
-	      console.error('Error fetching products:', error);
-	    });
+        categoryItems.appendChild(listItem);
+      });
+    })
+    .catch(error => {
+      console.error('Error fetching products:', error);
+    });
+}
+
+function deleteProduct(id){
+	const url = `/MyShop/product/${id}`; // Replace with the correct URL for your server
+
+	fetch(url, {
+	    method: 'DELETE',
+	    headers: { 'Content-Type': 'application/json' }
+	})
+	.then(response => response.json())
+	.then(data => {
+	    console.log(data.message);  // Log the response text
+	        console.log('Product deleted successfully!');
+
+	})
+	.catch(() => {
+	    console.error('Error:', data.message);
+	});
+
 }
 
 function showStockDetails(){
@@ -132,8 +155,10 @@ function showStockDetails(){
 			        <p><strong>Price:</strong> $${product.price}</p>
 			        <p><strong>Quantity:</strong> ${product.quantity}</p>
 			        <p><strong>Category:</strong> ${product.category}</p>
-			        <button class="btn" onclick="editProduct(${product.id})">Edit</button>
-			        <button class="btn" onclick="deleteProduct(${product.id})">Delete</button>
+					
+					<div class="button-row"> <button class="btn" onclick="editProduct('${product.id}')">Edit</button>
+			            <button class="btn" onclick="deleteProduct('${product.id}')">Delete</button>
+			        </div>
 			    `;
 			    
 			    stocksList.appendChild(productCard);
@@ -143,5 +168,100 @@ function showStockDetails(){
 	      console.error('Error fetching products:', error);
 	    });
 }
+
+
+function fetchCategory(){
+	
+	const dropdownContent = document.getElementById("dropdownContent");
+	const selectedValueButton = document.getElementById("selectedValue");
+	const selectedCategoryId = document.getElementById("selectedCategoryId");
+
+	fetch('/admin/catagory')
+	    .then(response => response.json()) // Parse the JSON from the response
+	    .then(data => {
+	        // Debugging: Check the response structure
+	        console.log("API Response:", data);
+
+	        const categories = data.catagory; // Extract the `catagory` array
+	        if (Array.isArray(categories)) { // Ensure it's an array
+	            dropdownContent.innerHTML = categories
+	                .map(category => 
+	                    `<a href="#" data-id="${category.catagoryId}">${category.catagory}</a>`
+	                )
+	                .join("");
+	        } else {
+	            console.error("Catagory is not an array or is undefined");
+	        }
+	    })
+	    .catch(error => {
+	        console.error("Error fetching categories:", error);
+	    });
+
+	
+		
+	
+
+	dropdownContent.addEventListener("click", (event) => {
+	    event.preventDefault(); // Prevent default anchor behavior
+	    const clickedItem = event.target; // Get the clicked item
+	    if (clickedItem.tagName === "A") {
+	        const categoryId = clickedItem.getAttribute("data-id");
+	        const categoryName = clickedItem.textContent;
+
+	        selectedValueButton.textContent = categoryName;
+
+	        selectedCategoryId.value = categoryId;
+	    }
+	});
+}
+
+function editProduct(id) {
+	
+	fetchCategory();
+	
+	fetch('/MyShop/product/'+id)
+    .then(response => response.json())
+	    .then(data => {
+		const product =  data.product;
+		if (product) {
+		       // Populate the modal with the product details
+		       document.getElementById('editProductId').value = product.id;
+		       document.getElementById('editProductName').value = product.name;
+		       document.getElementById('editProductDescription').value = product.description;
+		       document.getElementById('editProductPrice').value = product.price;
+		       document.getElementById('editProductQuantity').value = product.quantity;
+		      // document.getElementById('editProductCategory').value = product.category;
+			   
+		       document.getElementById('editModal').style.display = 'block';
+		   }
+	    })
+	    .catch(error => {
+	      console.error('Error fetching User Data:', error);
+	    });
+	}
+
+function closeModal() {
+    document.getElementById('editModal').style.display = 'none';
+}
+
+document.getElementById('editProductForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const editedProduct = {
+        id: document.getElementById('editProductId').value,
+        name: document.getElementById('editProductName').value,
+        description: document.getElementById('editProductDescription').value,
+        price: document.getElementById('editProductPrice').value,
+        quantity: document.getElementById('editProductQuantity').value,
+        category: document.getElementById('editProductCategory').value
+    };
+    updateProduct(editedProduct);
+});
+
+function updateProduct(product) {
+    console.log("Product updated:", product);
+    closeModal();
+}
+
 
 	

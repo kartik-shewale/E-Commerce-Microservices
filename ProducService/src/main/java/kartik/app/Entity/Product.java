@@ -16,20 +16,20 @@ public class Product {
 
     private int quantity;
 
-    private String catagory;
+    private String category; // Ensure this matches the JSON field name "category"
 
     public Product() {
         super();
     }
 
-    public Product(String id, String name, String description, int price, int quantity, String catagory) {
+    public Product(String id, String name, String description, int price, int quantity, String category) {
         super();
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
         this.quantity = quantity;
-        this.catagory = catagory;
+        this.category = category; // Ensure the constructor uses "category"
     }
 
     public String getId() {
@@ -72,11 +72,11 @@ public class Product {
         this.quantity = quantity;
     }
 
-    public String getCatagory() {
-        return catagory;
+    public String getCategory() {  // Getter method should match field name
+        return category;
     }
 
-    public void setCatagory(String catagory) {
-        this.catagory = catagory;
+    public void setCategory(String category) {  // Setter method should match field name
+        this.category = category;
     }
 }

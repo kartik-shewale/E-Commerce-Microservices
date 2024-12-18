@@ -6,6 +6,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,11 +28,11 @@ public class ProductController {
 	public ResponseEntity<Product> addProduct(@RequestBody Product product)
 	{
 		
-		System.out.print(product.getName());
-		System.out.print(product.getCatagory());
-		System.out.print(product.getDescription());
-		System.out.print(product.getId());
-		System.out.print(product.getQuantity());
+		System.out.println(product.getName());
+		System.out.println(product.getCategory());
+		System.out.println(product.getDescription());
+		System.out.println(product.getId());
+		System.out.println(product.getQuantity());
 
 		String idString = UUID.randomUUID().toString();
 		product.setId(idString);
@@ -51,6 +52,12 @@ public class ProductController {
 	{
 		List<Product> product2 = pService.getAllProduct();
 		return ResponseEntity.status(HttpStatus.CREATED).body(product2);
+	}
+	
+	@DeleteMapping("/{id}")
+	public void deleteProduct(@PathVariable String id)
+	{
+		pService.deleteProductById(id);
 	}
 
 }

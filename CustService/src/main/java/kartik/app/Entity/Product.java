@@ -11,20 +11,20 @@ public class Product {
 
 	    private int quantity;
 
-	    private String catagory;
+	    private String category;
 
 	    public Product() {
 	        super();
 	    }
 
-	    public Product(String id, String name, String description, int price, int quantity, String catagory) {
+	    public Product(String id, String name, String description, int price, int quantity, String category) {
 	        super();
 	        this.id = id;
 	        this.name = name;
 	        this.description = description;
 	        this.price = price;
 	        this.quantity = quantity;
-	        this.catagory = catagory;
+	        this.category = category;
 	    }
 
 	    public String getId() {
@@ -67,12 +67,12 @@ public class Product {
 	        this.quantity = quantity;
 	    }
 
-	    public String getCatagory() {
-	        return catagory;
+	    public String getCategory() {
+	        return category;
 	    }
 
 	    public void setCatagory(String catagory) {
-	        this.catagory = catagory;
+	        this.category = catagory;
 	    }
 
 }

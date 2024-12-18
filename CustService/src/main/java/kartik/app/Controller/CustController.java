@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -122,5 +123,25 @@ public class CustController {
 		List<Product> list = service.getAllProduct();
 	return	ResponseEntity.status(HttpStatus.OK).body(list);
 	}
+	
+	@GetMapping("product/{id}")
+	public ResponseEntity<Map<String, Object>> getProductById(@PathVariable String id){
+		System.out.print("Getting products");
+		 Map<String, Object> response = new HashMap<>();	
+		Product list = service.getProductById(id);
+		response.put("product", list);
+		response.put("message", "Product Found");
+		return	ResponseEntity.status(HttpStatus.OK).body(response);
+	}
 
+	@DeleteMapping("/product/{id}")
+	public ResponseEntity<Map<String, Object>>  deleteProduct(@PathVariable String id)
+	{
+		Map<String, Object> response = new HashMap<>();	
+		System.out.println("Deleting product ..........................................");
+		service.deleteProductById(id);
+		response.put("message", "Delete Succesfully");
+        response.put("statusText", "Deleted");
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+	}
 }
