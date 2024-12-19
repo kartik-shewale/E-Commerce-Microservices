@@ -2,9 +2,6 @@ document.addEventListener("DOMContentLoaded", function () {
 	
 
 	//fetchOrders();
-	
-	
-	
     const addCategoryLink = document.getElementById("addCatagoryBtn");
 	const addingErrorMessage = document.getElementById("addingErrorMessage");
 	
