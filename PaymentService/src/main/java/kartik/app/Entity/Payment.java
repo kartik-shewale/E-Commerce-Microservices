@@ -1,5 +1,7 @@
 package kartik.app.Entity;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
@@ -9,17 +11,19 @@ public class Payment {
 	@Id
 	private String paymentId;
     private String orderId;
+    private String customerId;
     private double amount;
     private String paymentMethod; 
     private String paymentStatus; 
-    private String transactionTime;
-    
+    private LocalDateTime transactionTime;
+
 	public Payment() {
 		super();
+		this.transactionTime = LocalDateTime.now();
 	}
 
 	public Payment(String paymentId, String orderId, double amount, String paymentMethod, String paymentStatus,
-			String transactionTime) {
+			LocalDateTime transactionTime,String customerId) {
 		super();
 		this.paymentId = paymentId;
 		this.orderId = orderId;
@@ -27,6 +31,7 @@ public class Payment {
 		this.paymentMethod = paymentMethod;
 		this.paymentStatus = paymentStatus;
 		this.transactionTime = transactionTime;
+		this.customerId=customerId;
 	}
 
 	public String getPaymentId() {
@@ -43,6 +48,14 @@ public class Payment {
 
 	public void setOrderId(String orderId) {
 		this.orderId = orderId;
+	}
+
+	public String getCustomerId() {
+		return customerId;
+	}
+
+	public void setCustomerId(String customerId) {
+		this.customerId = customerId;
 	}
 
 	public double getAmount() {
@@ -69,13 +82,13 @@ public class Payment {
 		this.paymentStatus = paymentStatus;
 	}
 
-	public String getTransactionTime() {
+	public LocalDateTime getTransactionTime() {
 		return transactionTime;
 	}
 
-	public void setTransactionTime(String transactionTime) {
+	public void setTransactionTime(LocalDateTime transactionTime) {
 		this.transactionTime = transactionTime;
 	}
-    
-    
+
+
 }

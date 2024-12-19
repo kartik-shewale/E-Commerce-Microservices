@@ -171,4 +171,10 @@ public class CustController {
 	}
 	
 	// All Releted to Product ================================================================================================
+	
+	@GetMapping("/payment")
+	public String getPaymentPage(){
+		System.out.print("Getting products");
+		return "payment";
+	}
 }
