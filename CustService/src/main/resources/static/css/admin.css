@@ -1,3 +1,51 @@
+/* Styling the custom dropdown container */
+.custom-dropdown {
+  margin: 20px 0;
+}
+
+.custom-dropdown label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+/* Styling the dropdown select element */
+.payment-method-dropdown {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  background-color: white;
+  color: #a19898; /* Default placeholder color */
+  cursor: pointer;
+}
+
+.payment-method-dropdown.option-selected {
+  color: black; /* Text color after selection */
+}
+
+/* Style for all options */
+.payment-method-dropdown option {
+  color: black; /* Default color for all options */
+}
+
+/* Style for the default option */
+.payment-method-dropdown option:first-child {
+  color: #a19898; /* Color for default placeholder */
+}
+
+
+/* Styling on hover to indicate the dropdown is interactable */
+.payment-method-dropdown:hover {
+  border-color: #4CAF50;
+}
+
+/* Adding focus style to dropdown for accessibility */
+.payment-method-dropdown:focus {
+  border-color: #4CAF50;
+  outline: none;
+}
 
 .form-actions {
     display: flex;

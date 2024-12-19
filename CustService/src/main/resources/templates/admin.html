@@ -95,13 +95,11 @@
 		            </div>
 
 		            <div class="form-group">
-						<div class="dropdown">
-					    <button class="dropdown-btn" id="selectedValue">Product Category</button>
-					    <div class="dropdown-content" id="dropdownContent">
-					        <!-- Items will be dynamically populated -->
-					    </div>
-					    <input type="hidden" id="selectedCategoryId" name="categoryId">
-					</div>
+		            	<label for="editProductQuantity">Product Category</label>
+						<div class="custom-dropdown ">
+						  	<select id="selectedValue" class="payment-method-dropdown">
+							</select>
+						</div>
 		            </div>
 					<div class="form-actions">
 				        <button type="button" class="btn" id="updateProductbtn">Save Changes</button>
@@ -130,12 +128,17 @@
                 <input type="text" id="productDesc" name="productDesc" placeholder="product Description" required />
                 <input type="number" id="productPrice" name="productPrice" placeholder="Product Price" required />
                 <input type="number" id="productStock" name="productStock" placeholder="Stock Quantity" required />
-                <div class="dropdown">
+                <!--  <div class="dropdown">
 				    <button class="dropdown-btn" id="selectedValueAddproduct">Product Category</button>
 				    <div class="dropdown-content" id="dropdownContentAddproduct">
-				        <!-- Items will be dynamically populated -->
+				        
 				    </div>
 				    <input type="hidden" id="selectedCategoryIdAddproduct" name="categoryId">
+				</div>-->
+				<div class="custom-dropdown">
+					  <select id="selectedValueAddproduct" class="payment-method-dropdown">
+					  <option value="" disabled selected>Select Category</option>
+					  </select>
 				</div>
                 <button type="submit" class="btn">Add Product</button>
             </form>

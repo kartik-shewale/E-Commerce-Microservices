@@ -169,10 +169,9 @@ function showStockDetails(){
 
 
 function fetchCategory(){
-	
-	const dropdownContent = document.getElementById("dropdownContent");
-	const selectedValueButton = document.getElementById("selectedValue");
-	const selectedCategoryId = document.getElementById("selectedCategoryId");
+
+	const dropdown = document.getElementById("selectedValue");
+	dropdown.innerHTML = "";
 
 	fetch('/admin/catagory')
 	    .then(response => response.json()) // Parse the JSON from the response
@@ -182,9 +181,12 @@ function fetchCategory(){
 
         const categories = data.catagory;
         if (Array.isArray(categories)) { 
-        dropdownContent.innerHTML = categories
-            .map(category =>`<a href="#" data-id="${category.catagoryId}">${category.category}</a>`)
-            .join("");
+			categories.forEach(category => {
+				const newOption = document.createElement("option");
+				newOption.value = category.category;
+				newOption.text = category.category;
+				dropdown.add(newOption);
+			});
         } else {
             console.error("Catagory is not an array or is undefined");
         }
@@ -192,17 +194,6 @@ function fetchCategory(){
 	    .catch(error => {
 	        console.error("Error fetching categories:", error);
 	    });
-
-		dropdownContent.addEventListener("click", (event) => {
-	    event.preventDefault(); // Prevent default anchor behavior
-	    const clickedItem = event.target; // Get the clicked item
-	    if (clickedItem.tagName === "A") {
-	        const categoryId = clickedItem.getAttribute("data-id");
-	        const categoryName = clickedItem.textContent;
-	        selectedValueButton.textContent = categoryName;
-	        selectedCategoryId.value = categoryId;
-	    }
-	});
 }
 
 function editProduct(id) {
@@ -220,7 +211,7 @@ function editProduct(id) {
 		       document.getElementById('editProductDescription').value = product.description;
 		       document.getElementById('editProductPrice').value = product.price;
 		       document.getElementById('editProductQuantity').value = product.quantity;
-			   document.getElementById("selectedValue").textContent = product.category;
+			   document.getElementById("selectedValue").value = product.category;
 		      // document.getElementById('editProductCategory').value = product.category;
 			   
 		       document.getElementById('editModal').style.display = 'block';
@@ -246,7 +237,7 @@ updateProductBtn.addEventListener("click", async () => {
         description: document.getElementById('editProductDescription').value,
         price: document.getElementById('editProductPrice').value,
         quantity: document.getElementById('editProductQuantity').value,
-        category: document.getElementById('selectedValue').textContent
+        category: document.getElementById('selectedValue').value
     };
 	
 	try {
@@ -279,39 +270,39 @@ function updateProduct(product) {
 }
 
 function fetchCatagoryForAddproduct(){
-	const dropdownContentAddproduct = document.getElementById("dropdownContentAddproduct");
-	const selectedValueAddproduct = document.getElementById("selectedValueAddproduct");
-	const selectedCategoryIdAddproduct = document.getElementById("selectedCategoryIdAddproduct");
-
+	const dropdown = document.getElementById("selectedValueAddproduct");
+	dropdown.innerHTML = `<option value="" disabled selected>Select Category</option>`;
 	fetch('/admin/catagory')
-	    .then(response => response.json())
-	    .then(data => {
-	        console.log("API Response:", data);
-	        const categories = data.catagory;
-	        if (Array.isArray(categories)) {
-	            dropdownContentAddproduct.innerHTML = categories
-	                .map(category =>`<a href="#" data-id="${category.catagoryId}">${category.category}</a>`)
-	                .join("");
-	        } else {
-	            console.error("Catagory is not an array or is undefined");
-	        }
-	    })
-	    .catch(error => {
-	        console.error("Error fetching categories:", error);
-	    });
-
-		dropdownContentAddproduct.addEventListener("click", (event) => {
-	    event.preventDefault(); // Prevent default anchor behavior
-	    const clickedItem = event.target; // Get the clicked item
-	    if (clickedItem.tagName === "A") {
-	        const categoryId = clickedItem.getAttribute("data-id");
-	        const categoryName = clickedItem.textContent;
-	        selectedValueAddproduct.textContent = categoryName;
-	        selectedCategoryIdAddproduct.value = categoryId;
-	    }
-	});
-	
+    .then(response => response.json())
+    .then(data => {
+        console.log("API Response:", data);
+        const categories = data.catagory;
+        if (Array.isArray(categories)) {
+			categories.forEach(category => {
+				const newOption = document.createElement("option");
+				newOption.value = category.category;
+				newOption.text = category.category;
+				dropdown.add(newOption);
+			});
+				
+        } else {
+            console.error("Catagory is not an array or is undefined");
+        }
+    })
+    .catch(error => {
+        console.error("Error fetching categories:", error);
+    });	
 }
+const dropdown = document.getElementById("selectedValueAddproduct");
+
+dropdown.addEventListener("change", function () {
+  if (dropdown.value !== "") {
+    dropdown.classList.add("option-selected");
+  } else {
+    dropdown.classList.remove("option-selected");
+  }
+});
+
 
 
 	
