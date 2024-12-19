@@ -144,4 +144,10 @@ public class CustController {
         response.put("statusText", "Deleted");
         return ResponseEntity.status(HttpStatus.OK).body(response);
 	}
+	
+	@GetMapping("/payment")
+	public String getPaymentPage(){
+		System.out.print("Getting products");
+		return "payment";
+	}
 }
