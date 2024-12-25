@@ -1,7 +1,12 @@
 package kartik.app.Entity;
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Customer {
@@ -27,13 +32,17 @@ public class Customer {
     @Column(name = "userImage", columnDefinition = "LONGTEXT")
     private String userImage;
 	
+    @OneToMany
+    @JoinColumn(name = "cust_id")
+    private List<Address> address;
+
 	
 	
 	public Customer() {
 		super();
 	}
 	
-	public Customer(String custId, String fName, String lName, String email, String mobile, String password,String userName,String userImage) {
+	public Customer(String custId, String fName, String lName, String email, String mobile, String password,String userName,String userImage,List<Address> address) {
 		super();
 		this.custId = custId;
 		this.fName = fName;
@@ -43,10 +52,19 @@ public class Customer {
 		this.password = password;
 		this.userName=userName;
 		this.userImage=userImage;
+		this.address=address;
 	}
 	
 	
 	
+	public List<Address> getAddress() {
+		return address;
+	}
+
+	public void setAddress(List<Address> address) {
+		this.address = address;
+	}
+
 	public String getUserImage() {
 		return userImage;
 	}

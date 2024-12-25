@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Products</title>
     <!-- Link to Custom CSS -->
-    <link rel="stylesheet" href="/css/product.css" />
+    <link rel="stylesheet" href="/css/cart.css" />
   </head>
   <body class="page-body">
     <!-- Header -->
@@ -17,19 +17,7 @@
           </a>
           <nav class="nav-bar">
             <div class="nav-padding">
-            <a href="#" class="nav-link">Home</a>
-            <a href="#" class="nav-link">Products</a>
-            <a href="#" class="nav-link">Contact</a>
-            <a href="#" class="nav-link" id="cartLink">Cart</a>
-
-            </div>
-              <div class="dropdown">
-                <button class="dropdown-btn">Account</button>
-                <div class="dropdown-content">
-                <a href="#">Profile</a>
-                <a href="#">Settings</a>
-                <a href="#">Logout</a>
-                </div>
+            <a href="#" class="nav-link" id="productLink">Products</a>
             </div>
             <a href="#" class="logo">
               <img src="/images/Shop.jpg" alt="Shop Logo" class="logo-img" id="userImage"/>
@@ -48,7 +36,18 @@
       </div>
     </section>
 
+	<!-- Footer -->
+	<footer class="footer">
+	  <div class="footer-container">
+	    <div class="footer-content">
+	      <span class="total-label">Total Amount:</span>
+	      <span class="total-amount" id="totalAmount">$0.00</span>
+	    </div>
+	    <button class="btn proceed-btn" id="proceedBtn">Proceed to Payment</button>
+	  </div>
+	</footer>
+
     <!-- JavaScript -->
-    <script src="/js/product.js"></script>
+    <script src="/JS/cart.js"></script>
   </body>
 </html>

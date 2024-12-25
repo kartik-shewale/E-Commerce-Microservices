@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	//fetchOrders();
 	
+
 	
 	
     const addCategoryLink = document.getElementById("addCatagoryBtn");
@@ -28,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		           const data = await response.json();
 					//alert(data.message);
 			          // window.location.href = data.redirect || "/dashboard";
-					  addingErrorMessage.textContent = data.message;
+					   showMessageBox(data.message,"OK");
 					  
 					  document.getElementById("categoryName").value = "";
 					  document.getElementById("categoryDescription").value ="";
@@ -40,7 +41,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		         }
 		       } catch (error) {
 		         console.error("Error during adding:", error);
-		         addingErrorMessage.textContent = "An unexpected error occurred.";
+		         showMessageBox("An unexpected error occurred.","OK");
 		       }
 		   });
 		   
@@ -91,6 +92,47 @@ function showAddProduct() {
     document.getElementById("ordersSection").style.display = "none";
     document.getElementById("addProductFormContainer").style.display = "block";
 }
+
+
+function showMessageBox(message,buttonText)
+{
+	const messageBox = document.getElementById('messageBox');
+	//const showMessageBoxBtn = document.getElementById('showMessageBoxBtn');
+	const closeMessageBoxBtn = document.getElementById('closeMessageBoxBtn');
+	//const messageTitle = document.querySelector('.message-box-content h3');
+	const messageText = document.querySelector('.message-box-content p');
+
+	messageText.textContent = message;
+	closeMessageBoxBtn.textContent = buttonText;
+	messageBox.style.display = 'block';
+}
+function showBootBox(){
+	const bootBox = document.getElementById("customModal");
+	const openModalBtn = document.getElementById("openModalBtn");
+	const confirmBtn = document.getElementById("confirmBtn");
+	const cancelBtn = document.getElementById("cancelBtn");
+	
+
+	openModalBtn.addEventListener('click', () => {
+	    bootBox.style.display = 'block';
+	});
+
+	const closeModalBootbox = () => {
+	    bootBox.style.display = 'none';
+	};
+	cancelBtn.addEventListener('click', closeModal);
+
+	confirmBtn.addEventListener('click', () => {
+	    alert('Action Confirmed!');
+	    closeModalBootbox();
+	});
+	window.addEventListener('click', (event) => {
+	    if (event.target === bootBox) {
+	        closeModalBootbox();
+	    }
+	});
+}
+
 
 function addAllCatagory(){
 	
@@ -249,15 +291,16 @@ updateProductBtn.addEventListener("click", async () => {
    
          if (response.ok) {
            const data = await response.json();
+		   showMessageBox(data.message,"OK");
 		   console.log(data);
 			
          } else {
-           const errorData = await response.json();
+          // const errorData = await response.json();
 		
          }
        } catch (error) {
          console.error("Error during adding:", error);
-         addingErrorMessage.textContent = "An unexpected error occurred.";
+          showMessageBox(error,"OK");
        }
 	
     updateProduct(editedProduct);
@@ -304,5 +347,58 @@ dropdown.addEventListener("change", function () {
 });
 
 
-
+const addProductBtn = document.getElementById("newProductAdd");
+const addProductMessage = document.getElementById("addProductErrorMsg");
+addProductBtn.addEventListener("click", async () => {
 	
+    	const editedProduct = {
+        name: document.getElementById('productName').value,
+        description: document.getElementById('productDesc').value,
+        price: document.getElementById('productPrice').value,
+        quantity: document.getElementById('productStock').value,
+        category: document.getElementById('selectedValueAddproduct').value
+    };
+	
+	try {
+         const response = await fetch('/MyShop/addUpdateProduct', {
+           method: "POST",
+           headers: { "Content-Type": "application/json" },
+           body: JSON.stringify(editedProduct),
+         });
+   
+         if (response.ok) {
+           const data = await response.json();
+		   console.log(data);
+		    showMessageBox(data.message,"OK");
+			makeAddProductFieldEmpty();
+			
+         } else {
+           const errorData = await response.json();
+			 showMessageBox(errorData,"OK");
+		
+         }
+       } catch (error) {
+         console.error("Error during adding:", error);
+		 showMessageBox("An unexpected error occurred.","OK");
+       }
+});
+
+function makeAddProductFieldEmpty(){
+	document.getElementById('productName').value = "";
+	document.getElementById('productDesc').value = "";
+	document.getElementById('productPrice').value = "";
+	document.getElementById('productStock').value = "";
+	document.getElementById('selectedValueAddproduct').value = "";
+}
+
+const messageBox = document.getElementById('messageBox');
+const closeMessageBoxBtn = document.getElementById('closeMessageBoxBtn');
+
+closeMessageBoxBtn.addEventListener('click', () => {
+    messageBox.style.display = 'none';
+});
+window.addEventListener('click', (event) => {
+    if (event.target === messageBox) {
+        messageBox.style.display = 'none';
+    }
+});

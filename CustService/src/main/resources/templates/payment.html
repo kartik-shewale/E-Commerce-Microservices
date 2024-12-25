@@ -30,7 +30,48 @@
 	      </div>
 	    </header>
     <div class="container">
-      <h1>Checkout & Payment</h1>
+    <div class="divBorder" id="custForm">
+      <h1>Customer Detail</h1>
+      <form id="custDetails">
+        <div class="form-group">
+          <label for="UserName">User Name</label>
+          <input type="text" id="UserName" name="UserName" required />
+        </div>
+        <div class="form-group">
+          <label for="fName">First Name</label>
+          <input type="text" id="fName" name="fName" required />
+        </div>
+        <div class="form-group">
+          <label for="lName">Last Name</label>
+          <input type="text" id="lName" name="lName" required />
+        </div>
+        <div class="form-group">
+          <label for="mobile">Mobile</label>
+          <input type="number" id="mobile" name="mobile" required value="" disabled/>
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="text" id="email" name="email" required value="" disabled/>
+        </div>
+        <button type="submit" class="button">Edit</button>
+      </form>
+
+      <div id="paymentStatus" class="payment-status"></div>
+     </div>
+    <div class="divBorder scrollable" id="addressForm" >
+      <h1>Address</h1>
+      <form id="paymentForm">
+        <div id="radioContainer"></div>
+        <button type="button" class="button" id="addAddress">Add Address</button>
+         <div class="btnHorizontal">
+         <button type="button" class="button" id="editAddress">Edit</button>
+        <button type="button" class="button" id="deleteAddress">Delete</button>
+        </div>
+      </form>
+     </div>
+      
+      <div class="divBorder" id=makePaymentForm>
+      <h1>Payment</h1>
       <form id="paymentForm">
         <div class="form-group">
           <label for="userId">User ID</label>
@@ -59,6 +100,40 @@
       </form>
 
       <div id="paymentStatus" class="payment-status"></div>
+      </div>
+      
+      <div class="divBorder hidden" id="newAddressForm">
+      <h1>Add Address</h1>
+      <form id="addressForm">
+        <div class="form-group">
+          <label for="fLine">First Line</label>
+          <input type="text" id="fLine" name="fLine" required />
+        </div>
+        <div class="form-group">
+          <label for="sLine">Second Line</label>
+          <input type="text" id="sLine" name="sLine" required />
+        </div>
+        <div class="form-group">
+          <label for="city">City</label>
+          <input type="text" id="city" name="city" required />
+        </div>
+        <div class="form-group">
+          <label for="state">State</label>
+          <input type="text" id="state" name="state" required />
+        </div>
+        <div class="form-group">
+          <label for="pincode">Pincode</label>
+          <input type="number" id="pincode" name="pincode" required maxlength="6"/>
+        </div>
+        <div class="btnHorizontal">
+         <button type="button" class="button" id="cancelAddress">Cancel</button>
+        <button type="button" class="button" id="addNewAddressBtn">Add Address</button>
+        </div>
+      </form>
+
+      <div id="paymentStatus" class="payment-status"></div>
+      </div>
+      
     </div>
 
     <script src="/JS/payment.js"></script>

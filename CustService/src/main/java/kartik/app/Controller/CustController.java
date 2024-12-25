@@ -3,6 +3,8 @@ package kartik.app.Controller;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +15,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import kartik.app.Entity.Address;
 import kartik.app.Entity.Customer;
+import kartik.app.Entity.Item;
 import kartik.app.Entity.Product;
 import kartik.app.Service.AdminService;
 import kartik.app.Service.CustService;
@@ -24,10 +29,7 @@ public class CustController {
 	
 	@Autowired
 	private CustService service;
-	
 
-	
-	
 	@GetMapping
 	public String loadPage()
 	{
@@ -176,5 +178,74 @@ public class CustController {
 	public String getPaymentPage(){
 		System.out.print("Getting products");
 		return "payment";
+	}
+	
+	@GetMapping("/cart")
+	public String getCartPage(){
+		System.out.print("Getting products");
+		return "cart";
+	}
+	
+	@PostMapping("/cart")
+	public ResponseEntity<Map<String,Object>> addToCart(@RequestBody Item item)
+	{
+		Map<String, Object> response = new HashMap<>();	
+		Item item2 = service.addToCart(item);
+		response.put("Item", item2);
+		response.put("message", "added succesfully");
+		return ResponseEntity.status(HttpStatus.OK).body(response);
+	}
+	
+	@GetMapping("/cart/{id}")
+	public ResponseEntity<Map<String,Object>> getCartPreodcut(@PathVariable String id)
+	{
+		Map<String, Object> response = new HashMap<>();	
+		List<Item> items = service.getCartPreodcut(id);
+		response.put("Item", items);
+		response.put("message", "All Card Product");
+		return ResponseEntity.status(HttpStatus.OK).body(response);
+	}
+	
+	@GetMapping("/check/{itemId}/{userId}")
+	public ResponseEntity<Map<String,Object>> isItemExistInCart(@PathVariable String itemId,@PathVariable String userId)
+	{
+		Map<String, Object> response = new HashMap<>();	
+
+		boolean res = service.isItemExistInCart(itemId, userId);
+		response.put("isExist", res);
+		response.put("message", "Item Exist in Cart");
+		return ResponseEntity.status(HttpStatus.OK).body(response);
+	}
+	
+	@GetMapping("IdByuserId/{id}")
+	public ResponseEntity<Map<String,Object>> getAllItemIdByUserId(@PathVariable String id){
+		Map<String, Object> response = new HashMap<>();
+		
+		List<String> itemIds = service.getAllItemIdByUserId(id);
+		response.put("itemIds", itemIds);
+		response.put("message", "Item Id List");
+		return ResponseEntity.status(HttpStatus.CREATED).body(response);
+	}
+	@DeleteMapping("cartItem/{id}")
+	public ResponseEntity<Map<String,Object>> deleteCartItem(@PathVariable int id){
+		Map<String, Object> response = new HashMap<>();
+		 boolean res =  service.deleteCartItem(id);
+		 
+		 if(res)response.put("message", "Deleted");
+		 else response.put("message", "Failure");
+		 
+		return ResponseEntity.status(HttpStatus.CREATED).body(response);
+	}
+	
+	@PostMapping("/address")
+	public ResponseEntity<Map<String,Object>> addAddress(@RequestBody Address address)
+	{
+		String id = UUID.randomUUID().toString();
+		address.setAddressId(id);
+		Map<String, Object> response = new HashMap<>();
+	    Address address2 =	service.addAddress(address);
+	    response.put("adress", address2);
+	    response.put("message", "added succesfully");
+	    return ResponseEntity.status(HttpStatus.CREATED).body(response);
 	}
 }

@@ -6,15 +6,20 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.client.RestTemplate;
 
 import jakarta.transaction.Transactional;
+import kartik.app.Entity.Address;
 import kartik.app.Entity.Customer;
+import kartik.app.Entity.Item;
 import kartik.app.Entity.Product;
 import kartik.app.Exception.DuplicateEntryException;
 import kartik.app.Exception.ResourceNotFoundException;
+import kartik.app.Repository.AddressRepo;
 import kartik.app.Repository.CustRepo;
 
 @Service
@@ -26,6 +31,9 @@ public class CustService implements CustServiceInterface{
 	
 	@Autowired
 	private CustRepo custRepo;
+	
+	@Autowired
+	private AddressRepo addressRepo;
 	
 	
 	@Override
@@ -108,6 +116,7 @@ public class CustService implements CustServiceInterface{
 	    }
 	}
 	
+	
 	public Product getProductById(String id){
 		Product list = restTemplate.getForObject("http://localhost:1003/product/"+id, Product.class);
 		return list;
@@ -118,7 +127,38 @@ public class CustService implements CustServiceInterface{
 		return	restTemplate.postForObject("http://localhost:1003/product", product, Product.class);
 	}
 
+	public Item addToCart(Item item)
+	{
+		return restTemplate.postForObject("http://localhost:1002/cart", item, Item.class);
+	}
+	public List<Item> getCartPreodcut(String id)
+	{
+		Item[] items = restTemplate.getForObject("http://localhost:1002/cart/userId/"+id, Item[].class);
+		return Arrays.stream(items).toList();
+	}
 	
+	public boolean isItemExistInCart(String itemId,String userId) {
+		return restTemplate.getForObject("http://localhost:1002/cart/check/"+itemId+"/"+userId, boolean.class);
+	}
+
+
+	public List<String> getAllItemIdByUserId(String id) {
+		
+		String [] arr = restTemplate.getForObject("http://localhost:1002/cart/IdByuserId/"+id, String[].class);
+	   return Arrays.stream(arr).toList();
+	   }
 	
+	public boolean deleteCartItem(int id) {
+		ResponseEntity<Boolean> response = restTemplate.exchange( "http://localhost:1002/cart/" + id,HttpMethod.DELETE,null,Boolean.class);
+
+		return	response.getBody();
+
+	}
+	public Address addAddress(Address address) {
+		return addressRepo.save(address);
+	}
+	public boolean isAddressExist(String address) {
+		return addressRepo.existsByAddressId(address);
+	}
 
 }

@@ -61,9 +61,7 @@
 		    <div id="stocksList">
 		        <!-- Product cards will be dynamically added here -->
 		    </div>
-		
-		    <!-- Button to add product (separate from stocks list) -->
-		    <button id="addProductBtn" class="btn" onclick="showAddProductForm()">Add Product</button>
+
 		</div>
 
 		<!-- Edit Product Modal -->
@@ -111,15 +109,32 @@
 		    </div>
 		</div>
 		
-        <!-- Orders Section -->
         <div id="ordersSection" class="hidden">
             <h2>Orders</h2>
             <div id="ordersList">
-                <!-- List of orders will appear here -->
             </div>
         </div>
-
-        <!-- Add Product Form -->
+		<!--   <button id="openModalBtn" class="btn btn-primary">Open Modal</button>-->
+		    <!-- Custom Modal -->
+		    <div id="customModal" class="custom-modal">
+		        <div class="custom-modal-content">
+		            <h2>Confirm Action</h2>
+		            <p>Are you sure you want to perform this action?</p>
+		            <button id="confirmBtn" class="btn btn-primary">Confirm</button>
+		            <button id="cancelBtn" class="btn btn-danger">Cancel</button>
+		        </div>
+		    </div>
+		    
+	    <!-- <button id="showMessageBoxBtn" class="btn btn-primary">Show Message</button> -->
+		    <!-- Message Box -->
+		    <div id="messageBox" class="message-box">
+		        <div class="message-box-content">
+		       		<!-- <h3>Notification</h3> -->
+		            <p>This is your message box!</p>
+		            <button id="closeMessageBoxBtn" class="btn btn-primary">OK</button>
+		        </div>
+		    </div>
+		    
          <div id="addProductFormContainer" class="hidden" style="display:none">
             
             <form id="addProductForm">
@@ -128,19 +143,13 @@
                 <input type="text" id="productDesc" name="productDesc" placeholder="product Description" required />
                 <input type="number" id="productPrice" name="productPrice" placeholder="Product Price" required />
                 <input type="number" id="productStock" name="productStock" placeholder="Stock Quantity" required />
-                <!--  <div class="dropdown">
-				    <button class="dropdown-btn" id="selectedValueAddproduct">Product Category</button>
-				    <div class="dropdown-content" id="dropdownContentAddproduct">
-				        
-				    </div>
-				    <input type="hidden" id="selectedCategoryIdAddproduct" name="categoryId">
-				</div>-->
 				<div class="custom-dropdown">
 					  <select id="selectedValueAddproduct" class="payment-method-dropdown">
 					  <option value="" disabled selected>Select Category</option>
 					  </select>
 				</div>
-                <button type="submit" class="btn">Add Product</button>
+                <button type="button" class="btn" id="newProductAdd">Add Product</button>
+                <div id="addProductErrorMsg" class="error-message"></div>
             </form>
          </div>
     </section>
