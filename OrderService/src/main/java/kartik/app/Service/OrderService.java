@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import jakarta.transaction.Transactional;
 import kartik.app.Entity.Order;
 import kartik.app.Exception.ResourceNotFoundException;
 import kartik.app.Repository.OrderRepo;
@@ -35,6 +36,17 @@ public class OrderService implements OrderServiceInterface{
 	public void deleteOrder(String id) {
 		orderRepo.deleteById(id);
 		
+	}
+	
+	
+	public List<Order> getOrderByCustomerId(String custId)
+	{
+		return orderRepo.findByCustomerId(custId);
+	}
+	
+	@Transactional
+	public boolean changeOrderStatus(String orderId,String status) {
+		return (orderRepo.changeStatus(orderId, status) > 0);
 	}
 
 }
