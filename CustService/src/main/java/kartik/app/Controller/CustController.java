@@ -1,5 +1,6 @@
 package kartik.app.Controller;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,8 +20,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import kartik.app.Entity.Address;
 import kartik.app.Entity.Customer;
 import kartik.app.Entity.Item;
+import kartik.app.Entity.Order;
+import kartik.app.Entity.Payment;
 import kartik.app.Entity.Product;
-import kartik.app.Service.AdminService;
 import kartik.app.Service.CustService;
 
 @Controller
@@ -67,12 +69,20 @@ public class CustController {
 		
 		Map<String, Object> response = new HashMap<>();
 	    try {
-	        Customer customer2 = service.addCustomer(customer);
-	        
-	        response.put("message", "Sign-Up successful");
-	        response.put("statusText", "User created successfully");
-	        response.put("customers", customer2);
-	        response.put("redirect", "MyShop/products");
+	    	
+	    	if(customer.getCustId()!= "" && customer.getCustId()!= null)
+	    	{
+		        Boolean flag = service.updateCustomerDetail(customer);
+		       String msg = flag?"Update Succesfully":"Update Failure";
+		        response.put("message", msg);
+	    	}else {
+		        Customer customer2 = service.addCustomer(customer);
+		        
+		        response.put("message", "Sign-Up successful");
+		        response.put("statusText", "User created successfully");
+		        response.put("customers", customer2);
+		        response.put("redirect", "MyShop/products");
+	    	}
 	        return ResponseEntity.status(HttpStatus.OK).body(response);
 	    } catch (RuntimeException e) {
 	        throw e;
@@ -112,8 +122,7 @@ public class CustController {
 		List<Customer> customer2 = service.getAllCustomers();
 		return ResponseEntity.status(HttpStatus.CREATED).body(customer2);
 	}
-	
-	
+		
 	// All Releted to Product ================================================================================================
 	
 	@GetMapping("/products")
@@ -197,7 +206,7 @@ public class CustController {
 	}
 	
 	@GetMapping("/cart/{id}")
-	public ResponseEntity<Map<String,Object>> getCartPreodcut(@PathVariable String id)
+	public ResponseEntity<Map<String,Object>> getCartProdcut(@PathVariable String id)
 	{
 		Map<String, Object> response = new HashMap<>();	
 		List<Item> items = service.getCartPreodcut(id);
@@ -240,12 +249,111 @@ public class CustController {
 	@PostMapping("/address")
 	public ResponseEntity<Map<String,Object>> addAddress(@RequestBody Address address)
 	{
-		String id = UUID.randomUUID().toString();
-		address.setAddressId(id);
 		Map<String, Object> response = new HashMap<>();
-	    Address address2 =	service.addAddress(address);
-	    response.put("adress", address2);
-	    response.put("message", "added succesfully");
+		if(address.getAddressId()=="") {
+			String id = UUID.randomUUID().toString();
+			address.setAddressId(id);
+			Address address2 =	service.addAddress(address);
+		    response.put("address", address2);
+		    response.put("message", "added succesfully");
+		}else {
+			int i =	service.updateAddress(address);
+		    response.put("isUpdated", i);
+		    response.put("message", "added succesfully");
+			
+		}
+		    
 	    return ResponseEntity.status(HttpStatus.CREATED).body(response);
 	}
+	
+	@GetMapping("/address/{id}")
+	public ResponseEntity<Map<String,Object>> getAddressById(@PathVariable String id)
+	{
+
+		Map<String, Object> response = new HashMap<>();
+	    Address address2 =	service.getAddressById(id);
+	    response.put("address", address2);
+	    response.put("message", "Fetch succesfully");
+	    return ResponseEntity.status(HttpStatus.CREATED).body(response);
+	}
+	
+	@DeleteMapping("/address/{id}")
+	public ResponseEntity<Map<String,Object>> deleteAddressById(@PathVariable String id)
+	{
+
+		Map<String, Object> response = new HashMap<>();
+	    service.deleteAddressById(id);
+	    response.put("status", "success");
+	    response.put("message", "Deleted");
+	    return ResponseEntity.status(HttpStatus.CREATED).body(response);
+	}
+	
+	@Autowired
+	private Payment payment;
+	@Autowired
+	private Order order;
+	@PostMapping("/payorder")
+	public ResponseEntity<Map<String,Object>> paymentAndOrder(@RequestBody Map<String, Object> paymentDetails){
+		
+		String addresId = (String) paymentDetails.get("addressId");
+		String userId = (String) paymentDetails.get("userId");
+		int amount = (int)paymentDetails.get("finalAmount");
+		String paymentMethod = (String) paymentDetails.get("paymentMethod");
+		String orderId = UUID.randomUUID().toString();
+		String paymentId = UUID.randomUUID().toString();
+		
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        LocalDateTime futureDate = currentDateTime.plusDays(5);
+        
+		payment.setAmount(amount);
+		payment.setCustomerId(userId);
+		payment.setOrderId(orderId);
+		payment.setPaymentId(paymentId);
+		payment.setPaymentMethod(paymentMethod);
+		payment.setPaymentStatus("Success");
+		payment.setTransactionTime(currentDateTime);
+		
+//        System.out.println(payment.getAmount());
+//        System.out.println(payment.getCustomerId());
+//        System.out.println(payment.getOrderId());
+//        System.out.println(payment.getPaymentId());
+//        System.out.println(payment.getPaymentMethod());
+
+		order.setAddresId(addresId);
+		order.setCustomerId(userId);
+		order.setAmount(amount);
+		order.setOrderId(orderId);
+		order.setPaymentId(paymentId);
+		order.setOrderDate(currentDateTime);
+		order.setStatus("Order Confirm");
+		order.setDilivaryDate(futureDate);
+		
+        Map<String, Object> response = new HashMap<>();
+		
+		Payment p = service.makePayment(payment);
+		Order o = service.makeOrder(order);
+		
+		List<Item> orderItems = service.selectCartItemForOrder(userId);
+		for(Item item : orderItems)
+		{	
+			System.out.println(item.getUserId());
+			Map<String, Object> itemMap = new HashMap<>();
+			itemMap.put("itemId", item.getItemId());
+			itemMap.put("userId", item.getUserId());
+			itemMap.put("itemName", item.getItemName());
+			itemMap.put("itemDesc", item.getItemDesc());
+			itemMap.put("itemPrice", item.getItemPrice());
+			itemMap.put("itemQuantity", item.getItemQuantity());
+			itemMap.put("orderId", orderId);
+			
+			service.addCartToOrder(itemMap);
+		}
+		service.deleteCartItemByUserId(userId);
+		
+		response.put("Payment", p);
+		response.put("Order", o);
+
+		return ResponseEntity.status(HttpStatus.CREATED).body(response);
+	}
+	
 }

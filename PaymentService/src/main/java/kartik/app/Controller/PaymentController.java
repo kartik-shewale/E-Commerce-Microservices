@@ -26,8 +26,8 @@ public class PaymentController {
 	
 	@PostMapping
 	public ResponseEntity<Payment> addPayment(@RequestBody Payment payment){
-		String id = UUID.randomUUID().toString();
-		payment.setPaymentId(id);
+//		String id = UUID.randomUUID().toString();
+//		payment.setPaymentId(id);
 		Payment payment2 = paymentService.addPayment(payment);
 		return ResponseEntity.status(HttpStatus.CREATED).body(payment2);
 	}

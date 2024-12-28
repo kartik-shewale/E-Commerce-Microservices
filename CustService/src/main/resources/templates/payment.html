@@ -30,6 +30,7 @@
 	      </div>
 	    </header>
     <div class="container">
+    
     <div class="divBorder" id="custForm">
       <h1>Customer Detail</h1>
       <form id="custDetails">
@@ -53,16 +54,15 @@
           <label for="email">Email</label>
           <input type="text" id="email" name="email" required value="" disabled/>
         </div>
-        <button type="submit" class="button">Edit</button>
+        <button type="button" id="editCustDetails" class="button">Update</button>
       </form>
-
-      <div id="paymentStatus" class="payment-status"></div>
      </div>
+     
     <div class="divBorder scrollable" id="addressForm" >
       <h1>Address</h1>
       <form id="paymentForm">
-        <div id="radioContainer"></div>
-        <button type="button" class="button" id="addAddress">Add Address</button>
+        <div class="radioContainer" id="radioContainer"></div>
+        <button type="button" class="button btnHorizontalAdd" id="addAddress">Add Address</button>
          <div class="btnHorizontal">
          <button type="button" class="button" id="editAddress">Edit</button>
         <button type="button" class="button" id="deleteAddress">Delete</button>
@@ -74,16 +74,32 @@
       <h1>Payment</h1>
       <form id="paymentForm">
         <div class="form-group">
-          <label for="userId">User ID</label>
-          <input type="text" id="userId" name="userId" required />
+          <label for="userId2">User ID</label>
+          <input type="text" id="userId2" name="userId2" required  disabled/>
         </div>
         <div class="form-group">
           <label for="paymentMethod">Payment Method</label>
-          <select id="paymentMethod" name="paymentMethod" required>
+          <select id="paymentMethod" name="paymentMethod" required onchange="handlePaymentMethodChange()">
             <option value="Wallet">Wallet</option>
             <option value="Credit Card">Credit Card</option>
-            <option value="Bank Transfer">Bank Transfer</option>
+            <option value="UPI">UPI</option>
           </select>
+        </div>
+        <div id="cardNumberDiv" class="form-group hidden">
+          <label for="cardNumber">Card Number</label>
+          <input type="number" id="cardNumber" name="cardNumber"  value="" maxlength="12"/>
+        </div>
+        <div id="cardPinDiv" class="form-group hidden">
+          <label for="cardPin">Pin</label>
+          <input type="number" id="cardPin" name="cardPin" value="" maxlength="6"/>
+        </div>
+        <div id="upiIdDiv" class="form-group hidden">
+          <label for="upiId">UPI ID</label>
+          <input type="text" id="upiId" name="upiId" />
+        </div> 
+        <div id="waletPinDiv" class="form-group">
+          <label for="waletPin">Pin</label>
+          <input type="number" id="waletPin" name="waletPin" value="" required maxlength="6"/>
         </div>
         <div class="form-group">
           <label for="finalAmount">Total Amount</label>
@@ -96,9 +112,8 @@
             disabled
           />
         </div>
-        <button type="submit" class="button">Make Payment</button>
-      </form>
-
+        <button type="button" id="makePayment" class="button">Make Payment</button>
+      </form> 
       <div id="paymentStatus" class="payment-status"></div>
       </div>
       
@@ -134,6 +149,25 @@
       <div id="paymentStatus" class="payment-status"></div>
       </div>
       
+      <!-- Custom Modal -->
+	    <div id="customModal" class="custom-modal">
+	        <div class="custom-modal-content">
+	            <h2>Confirm Action</h2>
+	            <p>Are you sure you want to perform this action?</p>
+	            <button id="confirmBtn" class="btn btn-primary">Confirm</button>
+	            <button id="cancelBtn" class="btn btn-danger">Cancel</button>
+	        </div>
+	    </div>
+	    
+    <!-- <button id="showMessageBoxBtn" class="btn btn-primary">Show Message</button> -->
+	    <!-- Message Box -->
+	    <div id="messageBox" class="message-box">
+	        <div class="message-box-content">
+	       		<!-- <h3>Notification</h3> -->
+	            <p>This is your message box!</p>
+	            <button id="closeMessageBoxBtn" class="btn btn-primary">OK</button>
+	        </div>
+	    </div>
     </div>
 
     <script src="/JS/payment.js"></script>

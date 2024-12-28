@@ -1,19 +1,18 @@
 package kartik.app.Entity;
 
+
 import java.time.LocalDateTime;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import org.springframework.stereotype.Component;
 
-@Entity
+@Component
 public class Payment {
-	
-	@Id
+
 	private String paymentId;
     private String orderId;
     private String customerId;
     private double amount;
-    private String paymentMethod;
+    private String paymentMethod; 
     private String paymentStatus; 
     private LocalDateTime transactionTime;
 

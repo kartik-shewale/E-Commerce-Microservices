@@ -16,6 +16,8 @@ import jakarta.transaction.Transactional;
 import kartik.app.Entity.Address;
 import kartik.app.Entity.Customer;
 import kartik.app.Entity.Item;
+import kartik.app.Entity.Order;
+import kartik.app.Entity.Payment;
 import kartik.app.Entity.Product;
 import kartik.app.Exception.DuplicateEntryException;
 import kartik.app.Exception.ResourceNotFoundException;
@@ -54,6 +56,15 @@ public class CustService implements CustServiceInterface{
         return custRepo.save(customer);
 	}
 	
+	@Transactional
+	public boolean updateCustomerDetail(Customer customer) {
+		try {
+			return custRepo.updateCustomerDetail(customer.getfName(), customer.getlName(), customer.getUserName(), customer.getCustId()) > 0;
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return false;
+	}
 	
 	@Transactional
 	public boolean resetCustomerPass(@RequestBody Map<String, String> payload)
@@ -131,6 +142,7 @@ public class CustService implements CustServiceInterface{
 	{
 		return restTemplate.postForObject("http://localhost:1002/cart", item, Item.class);
 	}
+	
 	public List<Item> getCartPreodcut(String id)
 	{
 		Item[] items = restTemplate.getForObject("http://localhost:1002/cart/userId/"+id, Item[].class);
@@ -157,8 +169,49 @@ public class CustService implements CustServiceInterface{
 	public Address addAddress(Address address) {
 		return addressRepo.save(address);
 	}
+	
 	public boolean isAddressExist(String address) {
 		return addressRepo.existsByAddressId(address);
+	}
+	public Address getAddressById(String id) {
+		return addressRepo.findById(id).orElseThrow(()->new ResourceNotFoundException("No Address With id "+id));
+	}
+	
+	@Transactional
+	public int  updateAddress(Address address) {
+		return addressRepo.updateAddress(address.getFirstLine(), 
+				address.getSecondLine(), address.getCity(),
+				address.getState(), address.getPincode(), address.getAddressId());
+	}
+	
+	public void deleteAddressById(String id) {
+		 addressRepo.deleteById(id);;
+	}
+
+	public Payment makePayment(Payment payment)
+	{
+		return restTemplate.postForObject("http://localhost:1005/payment", payment, Payment.class);
+	}
+	
+	public List<Item> selectCartItemForOrder(String id)
+	{
+		Item[] arr = restTemplate.getForObject("http://localhost:1002/cart/userId/"+id, Item[].class);
+		return Arrays.stream(arr).toList();
+	}
+	
+	public Order makeOrder(Order order)
+	{
+		return restTemplate.postForObject("http://localhost:1004/order", order,Order.class);
+	}
+	
+	public Item addCartToOrder(Map<String, Object> itemMap)
+	{
+		  return  restTemplate.postForObject("http://localhost:1004/order/addOrder",itemMap, Item.class);
+	}
+	
+	public boolean deleteCartItemByUserId(String id) {
+		ResponseEntity<Boolean> response = restTemplate.exchange( "http://localhost:1002/cart/userId/" + id,HttpMethod.DELETE,null,Boolean.class);
+		return	response.getBody();
 	}
 
 }

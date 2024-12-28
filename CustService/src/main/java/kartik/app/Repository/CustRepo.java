@@ -29,5 +29,7 @@ public interface CustRepo extends JpaRepository<Customer, String> {
 	@Query("UPDATE Customer c SET c.password = :p WHERE c.email = :m")
 	public int changeUserPasswordByEmail(@Param("m") String mobile, @Param("p") String password);
 	
-	
+	@Modifying
+	@Query("UPDATE Customer SET fName = :a,lName =:b , userName =:c WHERE custId = :d")
+	public int updateCustomerDetail(@Param("a") String fName, @Param("b") String lName, @Param("c") String userName, @Param("d") String custId);
 }

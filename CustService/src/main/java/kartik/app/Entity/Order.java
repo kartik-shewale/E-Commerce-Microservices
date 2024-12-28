@@ -3,18 +3,10 @@ package kartik.app.Entity;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
-
-@Entity
-@Table(name = "OrderTable")
+import org.springframework.stereotype.Component;
+@Component
 public class Order {
-	
-	@Id
+
 	private String orderId;
 	private String addresId;
 	private String customerId;
@@ -23,10 +15,7 @@ public class Order {
 	private LocalDateTime orderDate;
 	private LocalDateTime dilivaryDate;
 	private String status;
-	
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "order_id")
-	private List<OrderItem> list;
+	private List<Item> list;
 
 
 	public Order() {
@@ -35,7 +24,7 @@ public class Order {
 
 
 	public Order(String orderId, String addresId, String customerId, String paymentId, int amount, LocalDateTime orderDate,
-			LocalDateTime dilivaryDate, String status,List<OrderItem> list) {
+			LocalDateTime dilivaryDate, String status,List<Item> list) {
 		super();
 		this.orderId = orderId;
 		this.addresId = addresId;
@@ -49,12 +38,12 @@ public class Order {
 	}
 
 
-	public List<OrderItem> getList() {
+	public List<Item> getList() {
 		return list;
 	}
 
 
-	public void setList(List<OrderItem> list) {
+	public void setList(List<Item> list) {
 		this.list = list;
 	}
 
