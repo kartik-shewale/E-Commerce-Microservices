@@ -1,3 +1,119 @@
+.add-order-container {
+  display: grid;
+  grid-template-columns: auto 1fr; /* Labels auto-size, values take remaining space */
+  gap: 1rem; /* Uniform spacing between rows and columns */
+  padding: 1.5rem;
+  width: 45%; /* Adjust width for a balanced appearance */
+  margin: 1rem auto; /* Center the container and add top margin */
+  border: 1px solid #ccc; /* Subtle border for structure */
+  border-radius: 10px; /* Rounded corners for aesthetics */
+  background-color: #f9f9f9; /* Light background for readability */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Slight shadow for depth */
+}
+
+.add-order-container .row {
+  display: flex;
+  align-items: center; /* Vertically align label and value */
+  padding: 0.5rem 0; /* Space between rows */
+}
+
+.add-order-container .label {
+  font-weight: bold;
+  color: #555; /* Softer color for labels */
+  margin-right: 1rem; /* Space between label and value */
+  text-align: right;
+  width: 30%; /* Fix label width for consistent alignment */
+}
+
+.add-order-container .value {
+  color: #222; /* Darker color for values */
+  background-color: #fff;
+  padding: 0.5rem 1rem; /* Padding around values */
+  border-radius: 5px; /* Rounded corners for value fields */
+  border: 1px solid #ddd; /* Subtle border for emphasis */
+  flex: 1; /* Ensure values stretch to fill remaining space */
+}
+
+.add-order-container .value:hover {
+  background-color: #f1f1f1; /* Light hover effect for values */
+  border-color: #bbb; /* Darker border on hover */
+}
+
+
+
+#orderSection {
+  display: flex;
+  justify-content: center; /* Center the content horizontally */
+  align-items: flex-start; /* Align the content to the top vertically */
+  flex-direction: column;
+  width: 100%;
+  min-height: 100vh; /* Use 80% of the viewport height */
+  padding: 0;
+  overflow: hidden; /* Prevent the whole section from scrolling */
+}
+
+.order-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 2rem;
+  width: 100%;
+  padding: 0.5rem;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  height: 100%; /* This makes it take up the full height of #categoriesSection */
+  overflow: hidden; /* Prevent scrolling within categories container */
+}
+
+.order-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 columns for the categories */
+  gap: 1rem;
+  max-height: 84vh; /* Set maximum height to 70% of the viewport height */
+  overflow-y: auto; /* Allow vertical scrolling when content overflows */
+  padding: 1rem;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-sizing: border-box;
+  width: 50%; 
+      margin-top: 1rem;
+}
+
+
+
+
+/* General Styling for Category Items */
+.order-card {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.order-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.order-title {
+  font-size: 1.5rem;
+  color: #4f46e5;
+  margin-bottom: 0.5rem;
+}
+
+.order-description {
+  font-size: 1rem;
+  color: #666;
+  line-height: 1.5;
+}
+
+
 /* General Message Box Styles */
 .message-box {
     display: none; /* Hidden by default */
@@ -258,37 +374,37 @@ body {
     box-sizing: border-box;
 }
 
-/* General Styling for Category Items */
-.category-card {
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 15px;
-  margin-bottom: 15px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.category-card:hover {
-  transform: scale(1.02);
-  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
-}
-
-.category-title {
-  font-size: 1.5rem;
-  color: #4f46e5;
-  margin-bottom: 0.5rem;
-}
-
-.category-description {
-  font-size: 1rem;
-  color: #666;
-  line-height: 1.5;
-}
+	/* General Styling for Category Items */
+	.category-card {
+	  background-color: #f9f9f9;
+	  border: 1px solid #ddd;
+	  border-radius: 8px;
+	  padding: 15px;
+	  margin-bottom: 15px;
+	  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	  transition: transform 0.3s ease, box-shadow 0.3s ease;
+	}
+	
+	.category-card:hover {
+	  transform: scale(1.02);
+	  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+	}
+	
+	.category-title {
+	  font-size: 1.5rem;
+	  color: #4f46e5;
+	  margin-bottom: 0.5rem;
+	}
+	
+	.category-description {
+	  font-size: 1rem;
+	  color: #666;
+	  line-height: 1.5;
+	}
 
 /* Grid Layout for Stocks */
 /* Grid Layout for Stocks */
-#stocksList {
+#stocksList , #ordersList{
     display: grid;
     grid-template-columns: repeat(5, 1fr); /* 5 columns */
     gap: 20px; /* Space between the cards */

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import kartik.app.Entity.Admin;
 import kartik.app.Entity.Catagory;
 import kartik.app.Entity.Customer;
+import kartik.app.Entity.Order;
 import kartik.app.Service.AdminService;
 import kartik.app.Service.CatagoryService;
 
@@ -94,14 +95,22 @@ public class AdminController {
 	        response.put("redirect", "adminpage");
 	    return ResponseEntity.status(HttpStatus.OK).body(response);
 	 }
-	 
-	 
-	 
-	 
+	  
 	@GetMapping("/adminpage")
 	public String getProductPage(){
 		System.out.print("Open Admin");
 		return "admin";
+	}
+	
+	@GetMapping("/allOrder")
+	public ResponseEntity<Map<String, Object>> getAllOrder()
+	{
+		 Map< String, Object> response = new HashMap<>();
+		 List<Order> orders = adminService.getAllOrder();
+		 	response.put("message", "All Order Fetch");
+	        response.put("statusText", "success");
+	        response.put("orders", orders);
+	    return ResponseEntity.status(HttpStatus.OK).body(response);
 	}
 	
 

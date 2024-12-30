@@ -46,8 +46,7 @@
                         <input type="text" id="categoryName" name="category" placeholder="Category Name" required />
                         <input type="text" id="categoryDescription" name="categoryDescription" placeholder="Category Description" required />
 						<button type="button" id="addCatagoryBtn" class="btn">Add</button>
-				          <div id="addingErrorMessage" class="error-message"></div>
-				        
+				        <div id="addingErrorMessage" class="error-message"></div>
                     </form>
                 </div>
             </div>
@@ -112,6 +111,20 @@
         <div id="ordersSection" class="hidden">
             <h2>Orders</h2>
             <div id="ordersList">
+            </div>
+        </div>
+        
+        <div id="orderDetailSection" >
+            <div class="order-container">
+                <!-- Available Categories will appear here -->
+                <div class="order-list" id="orderDetails">
+                   
+                </div>
+
+                <!-- Add Category Form on the right side -->
+           <div id="custDetails" class="add-order-container"></div>
+
+
             </div>
         </div>
 		<!--   <button id="openModalBtn" class="btn btn-primary">Open Modal</button>-->

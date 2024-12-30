@@ -213,5 +213,7 @@ public class CustService implements CustServiceInterface{
 		ResponseEntity<Boolean> response = restTemplate.exchange( "http://localhost:1002/cart/userId/" + id,HttpMethod.DELETE,null,Boolean.class);
 		return	response.getBody();
 	}
+	
+
 
 }
