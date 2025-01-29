@@ -1,11 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
 	
-
-	setOrderDetails();
-	
-
-	
-	
     const addCategoryLink = document.getElementById("addCatagoryBtn");
 	const addingErrorMessage = document.getElementById("addingErrorMessage");
 	
@@ -68,6 +62,7 @@ function showAddCategory() {
     document.getElementById("stocksSection").style.display = "none";
     document.getElementById("ordersSection").style.display = "none";
     document.getElementById("addProductFormContainer").style.display = "none";
+	document.getElementById("orderDetailSection").style.display = "none";
 }
 
 function showStocks() {
@@ -76,6 +71,7 @@ function showStocks() {
     document.getElementById("stocksSection").style.display = "block";
     document.getElementById("ordersSection").style.display = "none";
     document.getElementById("addProductFormContainer").style.display = "none";
+	document.getElementById("orderDetailSection").style.display = "none";
 }
 
 function showOrders() {
@@ -83,6 +79,7 @@ function showOrders() {
     document.getElementById("stocksSection").style.display = "none";
     document.getElementById("ordersSection").style.display = "block";
     document.getElementById("addProductFormContainer").style.display = "none";
+	document.getElementById("orderDetailSection").style.display = "none";
 	showAllOrders();
 }
 
@@ -92,8 +89,12 @@ function showAddProduct() {
     document.getElementById("stocksSection").style.display = "none";
     document.getElementById("ordersSection").style.display = "none";
     document.getElementById("addProductFormContainer").style.display = "block";
+	document.getElementById("orderDetailSection").style.display = "none";
 }
-
+function closeOrderDetails(){
+	document.getElementById("orderDetailSection").style.display = "none";
+	document.getElementById("ordersSection").style.display = "block";
+}
 
 function showMessageBox(message,buttonText)
 {
@@ -183,6 +184,11 @@ function showAllOrders(){
 	const stocksList = document.getElementById('ordersList');
 	stocksList.innerHTML = ''; 
 	
+	const formatDate = (isoDate) => {
+	    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+	    return new Date(isoDate).toLocaleDateString(undefined, options);
+	};
+	
 	fetch('/admin/allOrder')
 		    .then(response => response.json())
 		    .then(data => {
@@ -204,11 +210,11 @@ function showAllOrders(){
 												        <h3 class="product-title">${cust.fName+" "+ cust.lName}</h3>
 												        <p class="product-description">${add.firstLine+" "+add.secondLine+" "+add.city+" "+add.state+" "+add.pincode}</p>
 												        <p><strong>Amount:</strong> $${order.amount}</p>
-												        <p><strong>Order Date :</strong> ${order.orderDate}</p>
+												        <p><strong>Order Date :</strong> ${formatDate(order.orderDate)}</p>
 												        <p><strong>Status :</strong> ${order.status}</p>
 														
-														<div class="button-row"> <button class="btn" onclick="editProduct()">Edit</button>
-												            <button class="btn" onclick="deleteProduct()">Delete</button>
+														<div class="button-row"> <button class="btn" onclick="setOrderDetails('${order.orderId}')">Detail</button>
+												            <!--<button class="btn" onclick="deleteProduct()">Delete</button>-->
 												        </div>`;
 												    stocksList.appendChild(productCard);
 								
@@ -355,88 +361,85 @@ updateProductBtn.addEventListener("click", async () => {
     updateProduct(editedProduct);
 });
 
-function setOrderDetails(){
-	
-	fetch('/admin/allOrder')
+function setOrderDetails(id){
+	document.getElementById("orderDetailSection").style.display = "block";
+	document.getElementById("ordersSection").style.display = "none";
+	fetch('/admin/order/'+id)
+	    .then(response => response.json())
+	    .then(data => {
+			order = data.orders;
+			fetch('/MyShop/customer/'+order.customerId)
 			    .then(response => response.json())
-			    .then(data => {
-					data = data.orders;
-				data.forEach(order => {
-					
-					fetch('/MyShop/customer/'+order.customerId)
-							    .then(response => response.json())
-							    .then(cust => {
-																	
-									fetch('/MyShop/address/'+order.addresId)
-									    .then(response => response.json())
-									    .then(address => {
-											
-														  	const add=address.address;
-															const orderDetails = document.getElementById('orderDetails');
-															orderDetails.innerHTML = ''; 
-																
-															
-															  
-															order.list.forEach(orderss =>{
-																const productCard = document.createElement('div');
-																  productCard.classList.add('product-card');
-																  
-																  productCard.innerHTML = `
-																      <h3 class="product-title">${orderss.itemName}</h3>
-																      <p class="product-description">${orderss.itemDesc}</p>
-																      <p><strong>Price:</strong> $${orderss.itemPrice}</p>
-																      <p><strong>Quantity:</strong> ${orderss.itemQuantity}</p>
-																      `;
-																  orderDetails.appendChild(productCard);
-															});
-														  
-
-															const custDetails = document.getElementById('custDetails');
-															custDetails.innerHTML = ''; // Clear any existing content
-
-														
-
-															// Function to format ISO dates to a readable format
-															const formatDate = (isoDate) => {
-															    const options = { year: 'numeric', month: 'long', day: 'numeric' };
-															    return new Date(isoDate).toLocaleDateString(undefined, options);
-															};
-
-															// Create and append the order details dynamically
-															const orderDiv = document.createElement('div');
-															orderDiv.className = 'order';
-
-															orderDiv.innerHTML = `
-															    <div class="row"><span class="label">Name:</span> <span class="value">${cust.fName + " " + cust.lName}</span></div>
-															    <div class="row"><span class="label">Address:</span> <span class="value">${add.firstLine + " " + add.secondLine + " " + add.city + " " + add.state + " " + add.pincode}</span></div>
-															    <div class="row"><span class="label">Amount:</span> <span class="value">${order.amount}</span></div>
-															    <div class="row"><span class="label">Phone:</span> <span class="value">${cust.mobile}</span></div>
-															    <div class="row"><span class="label">Email:</span> <span class="value">${cust.email}</span></div>
-															    <div class="row"><span class="label">Order Date:</span> <span class="value">${formatDate(order.orderDate)}</span></div>
-															    <div class="row"><span class="label">Delivery Date:</span> <span class="value">${formatDate(order.dilivaryDate)}</span></div>
-															    <div class="row"><span class="label">Status:</span> <span class="value">${order.status}</span></div>
-															`;
-
-															custDetails.appendChild(orderDiv);
-
-														   
+			    .then(cust => {
+													
+					fetch('/MyShop/address/'+order.addresId)
+					    .then(response => response.json())
+					    .then(address => {
+							
+							  	const add=address.address;
+								const orderDetails = document.getElementById('orderDetails');
+								orderDetails.innerHTML = ''; 
 									
-											  })
-											  .catch(error => {
-											    console.error('Error fetching User Data:', error);
-											});
+								
+								  
+								order.list.forEach(orderss =>{
+									const productCard = document.createElement('div');
+									  productCard.classList.add('product-card');
+									  
+									  productCard.innerHTML = `
+									      <h3 class="product-title">${orderss.itemName}</h3>
+									      <p class="product-description">${orderss.itemDesc}</p>
+									      <p><strong>Price:</strong> $${orderss.itemPrice}</p>
+									      <p><strong>Quantity:</strong> ${orderss.itemQuantity}</p>
+									      `;
+										  orderDetails.appendChild(productCard);
+									});
+									  
+
+										const custDetails = document.getElementById('custDetails');
+										custDetails.innerHTML = ''; // Clear any existing content
+
 									
-								})
-								.catch(error => {
-								  console.error('Error fetching products:', error);
-								});
-			  });
+
+										// Function to format ISO dates to a readable format
+										const formatDate = (isoDate) => {
+										    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+										    return new Date(isoDate).toLocaleDateString(undefined, options);
+										};
+
+										// Create and append the order details dynamically
+										const orderDiv = document.createElement('div');
+										orderDiv.className = 'order';
+
+										orderDiv.innerHTML = `
+										    <div class="row"><span class="label">Name:</span> <span class="value">${cust.fName + " " + cust.lName}</span></div>
+										    <div class="row"><span class="label">Address:</span> <span class="value">${add.firstLine + " " + add.secondLine + " " + add.city + " " + add.state + " " + add.pincode}</span></div>
+										    <div class="row"><span class="label">Amount:</span> <span class="value">${order.amount}</span></div>
+										    <div class="row"><span class="label">Phone:</span> <span class="value">${cust.mobile}</span></div>
+										    <div class="row"><span class="label">Email:</span> <span class="value">${cust.email}</span></div>
+										    <div class="row"><span class="label">Order Date:</span> <span class="value">${formatDate(order.orderDate)}</span></div>
+										    <div class="row"><span class="label">Delivery Date:</span> <span class="value">${formatDate(order.dilivaryDate)}</span></div>
+										    <div class="row"><span class="label">Status:</span> <span class="value">${order.status}</span></div>
+											<button class="btn" onclick="closeOrderDetails()">Close</button>
+										`;
+
+										custDetails.appendChild(orderDiv);
+
+									   
+				
+						  })
+						  .catch(error => {
+						    console.error('Error fetching User Data:', error);
+						});
+				
 			})
 			.catch(error => {
 			  console.error('Error fetching products:', error);
 			});
-	
-		
+	})
+	.catch(error => {
+	  console.error('Error fetching products:', error);
+	});
 }
 
 

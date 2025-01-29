@@ -80,13 +80,13 @@ public class OrderController {
 		orderItem.setOrderId((String) map.get("orderId"));
 		orderItem.setItemPrice((Integer) map.get("itemPrice"));
 		
-//		System.out.println((String) map.get("itemId"));
-//		System.out.println((String) map.get("itemDesc"));
-//		System.out.println((String) map.get("itemName"));
-//		System.out.println((Integer) map.get("itemQuantity"));
-//		System.out.println((String) map.get("userId"));
-//		System.out.println((String) map.get("orderId"));
-//		System.out.println((Integer) map.get("itemPrice"));
+		System.out.println((String) map.get("itemId"));
+		System.out.println((String) map.get("itemDesc"));
+		System.out.println((String) map.get("itemName"));
+		System.out.println((Integer) map.get("itemQuantity"));
+		System.out.println((String) map.get("userId"));
+		System.out.println((String) map.get("orderId"));
+		System.out.println((Integer) map.get("itemPrice"));
 		
 		
 		OrderItem orderItem2 = orderService.saveOrderItem(orderItem);

@@ -60,5 +60,10 @@ public class AdminService {
 		Order[] arr = restTemplate.getForObject("http://localhost:1004/order", Order[].class);
 		return Arrays.stream(arr).toList();
 	}
+	
+	public Order getOrderById(String id) {
+		return restTemplate.getForObject("http://localhost:1004/order/"+id, Order.class);
+	}
+
 
 }

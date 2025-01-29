@@ -20,8 +20,8 @@
 .add-order-container .label {
   font-weight: bold;
   color: #555; /* Softer color for labels */
-  margin-right: 1rem; /* Space between label and value */
-  text-align: right;
+  margin-right: 0rem; /* Space between label and value */
+  text-align: left;
   width: 30%; /* Fix label width for consistent alignment */
 }
 

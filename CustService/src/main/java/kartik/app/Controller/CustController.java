@@ -65,8 +65,6 @@ public class CustController {
 	@PostMapping("/signup")
 	public ResponseEntity<Map<String, Object>> addCustomer(@RequestBody Customer customer)
 	{
-
-		
 		Map<String, Object> response = new HashMap<>();
 	    try {
 	    	
@@ -312,12 +310,6 @@ public class CustController {
 		payment.setPaymentMethod(paymentMethod);
 		payment.setPaymentStatus("Success");
 		payment.setTransactionTime(currentDateTime);
-		
-//        System.out.println(payment.getAmount());
-//        System.out.println(payment.getCustomerId());
-//        System.out.println(payment.getOrderId());
-//        System.out.println(payment.getPaymentId());
-//        System.out.println(payment.getPaymentMethod());
 
 		order.setAddresId(addresId);
 		order.setCustomerId(userId);
@@ -347,6 +339,7 @@ public class CustController {
 			itemMap.put("orderId", orderId);
 			
 			service.addCartToOrder(itemMap);
+			service.updateProductQuantity(itemMap);
 		}
 		service.deleteCartItemByUserId(userId);
 		

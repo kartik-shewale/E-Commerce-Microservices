@@ -349,6 +349,14 @@ document.getElementById('makePayment').addEventListener('click', async () => {
    
          if (response.ok) {
            const data =await response.json();
+		   showMessageBox("Order Confirmed","ok")
+		   if (window.history.length > 2) {
+		       window.history.go(-2);
+			   window.location.reload();
+		   } else {
+		       window.location.href = '/MyShop/login';
+		   }
+
 		   console.log(data);				
          }
        } catch (error) {
@@ -370,7 +378,7 @@ document.getElementById('makePayment').addEventListener('click', async () => {
   });
   
 function addressFieldEmpty(){
-	document.getElementById('userId').value = "";			
+	//document.getElementById('userId').value = "";			
 	document.getElementById('fLine').value = "";
 	document.getElementById('sLine').value = "";
 	document.getElementById('city').value = "";

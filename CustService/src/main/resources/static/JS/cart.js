@@ -17,11 +17,7 @@ document.addEventListener("DOMContentLoaded", function() {
 	    })
 	    .catch(error => {
 	      console.error('Error fetching User Data:', error);
-	    });
-	
-		
-  // Function to fetch products from the server (replace URL with actual endpoint)
-  
+	    });  
 });
 function deleteItem(id){
 	const url = `/MyShop/cartItem/${id}`; 
@@ -189,6 +185,8 @@ document.getElementById("proceedBtn").addEventListener('click', function(event) 
 	
 	const totalAmountElement = document.getElementById('totalAmount');
 	let total = parseFloat(totalAmountElement.textContent.replace('$', ''));
+	
+	if(total == 0)return;
 	const userId = document.getElementById('userId').value;	
 	const data = { userId: userId,total:total};
 	const queryString = new URLSearchParams(data).toString();

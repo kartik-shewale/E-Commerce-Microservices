@@ -206,7 +206,14 @@ public class CustService implements CustServiceInterface{
 	
 	public Item addCartToOrder(Map<String, Object> itemMap)
 	{
+		System.out.print("Adding in order");
 		  return  restTemplate.postForObject("http://localhost:1004/order/addOrder",itemMap, Item.class);
+	}
+	
+	public Boolean updateProductQuantity(Map<String, Object> itemMap)
+	{
+		System.out.print("Update Quntity");
+		  return  restTemplate.postForObject("http://localhost:1003/product/upQuantity",itemMap, Boolean.class);
 	}
 	
 	public boolean deleteCartItemByUserId(String id) {
